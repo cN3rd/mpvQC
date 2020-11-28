@@ -3,21 +3,22 @@ from pathlib import Path
 from unittest import SkipTest
 from unittest.mock import patch, mock_open
 
-from mpvqc.manager_new import Importer, Import
+from mpvqc.manager_new.importer import Importer
+from mpvqc.manager_new.document import Document
 
 
-def ensure_result(result: Import):
+def ensure_result(result: Document):
     if result is None:
         raise SkipTest('Precondition not met: result is None')
 
 
-def ensure_has_video(result: Import):
+def ensure_has_video(result: Document):
     ensure_result(result)
     if result.video is None:
         raise SkipTest('Precondition not met: video is None')
 
 
-def ensure_has_comments(result: Import):
+def ensure_has_comments(result: Document):
     ensure_result(result)
     if result.comments is None:
         raise SkipTest('Precondition not met: \'comments\' is None')
@@ -27,7 +28,7 @@ class TestImporter(unittest.TestCase):
     PATH = Path()
     IMPORTER = Importer()
 
-    def _read(self, feed: str) -> Import:
+    def _read(self, feed: str) -> Document:
         with patch('pathlib.Path.open', mock_open(read_data=feed)):
             with self.PATH.open():
                 # print(f.read())
