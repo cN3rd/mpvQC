@@ -4,9 +4,9 @@ from pathlib import Path
 from typing import NamedTuple
 from unittest.mock import patch
 
-from mpvqc.manager_new.comment import Comment
-from mpvqc.manager_new.document import Document
-from mpvqc.manager_new.exporter import DocumentRecipe, DocumentIngredients, DocumentCombiner, Exporter
+from mpvqc.engine.comment import Comment
+from mpvqc.engine.io.document import Document
+from mpvqc.engine.io.doc_exporter import DocumentRecipe, DocumentIngredients, DocumentCombiner, Exporter
 
 
 class MockedSettings(NamedTuple):
@@ -42,7 +42,7 @@ class TestData:
 
 class TestExporterModule(unittest.TestCase):
 
-    @patch('mpvqc.manager_new.exporter.get_settings', return_value=MockedSettings(export_write_video_path=False))
+    @patch('mpvqc.engine.io.doc_exporter.get_settings', return_value=MockedSettings(export_write_video_path=False))
     def test_document_recipe_from_settings(self, *_):
         recipe = DocumentRecipe.from_settings()
         self.assertTrue(recipe.header, 'Expected document recipe to return True for \'header\'')
@@ -59,8 +59,8 @@ class TestExporterModule(unittest.TestCase):
         self.assertFalse(recipe.nick, 'Expected document recipe to return False for \'nick\'')
         self.assertTrue(recipe.path, 'Expected document recipe to return True for \'path\'')
 
-    @patch('mpvqc.manager_new.exporter.get_settings', return_value=MockedSettings(export_nickname='mock-patch'))
-    @patch('mpvqc.manager_new.exporter.get_metadata', return_value=MockedMetadata(app_name='mpvKuZeh'))
+    @patch('mpvqc.engine.io.doc_exporter.get_settings', return_value=MockedSettings(export_nickname='mock-patch'))
+    @patch('mpvqc.engine.io.doc_exporter.get_metadata', return_value=MockedMetadata(app_name='mpvKuZeh'))
     def test_document_ingredients_from_document(self, *_):
         video = None
         comments = [
@@ -225,18 +225,18 @@ class TestExporterModule(unittest.TestCase):
         last_content_line = [line for line in lines if line][-1]
         self.assertTrue(last_content_line.split()[-1].isdigit())
 
-    @patch('mpvqc.manager_new.exporter.get_settings', return_value=MockedSettings())
-    @patch('mpvqc.manager_new.exporter.get_metadata', return_value=MockedMetadata())
-    @patch('mpvqc.manager_new.exporter.Path.write_text')
+    @patch('mpvqc.engine.io.doc_exporter.get_settings', return_value=MockedSettings())
+    @patch('mpvqc.engine.io.doc_exporter.get_metadata', return_value=MockedMetadata())
+    @patch('mpvqc.engine.io.doc_exporter.Path.write_text')
     def test_exporter_export_calls_file_write_text(self, write_text, *_):
         document = Document(TestData.ingredients.path, comments=TestData.ingredients.comments)
         Exporter.export(document, TestData.export_path)
         write_text.assert_called()
 
-    @patch('mpvqc.manager_new.exporter.get_settings', return_value=MockedSettings())
-    @patch('mpvqc.manager_new.exporter.get_metadata', return_value=MockedMetadata())
-    @patch('mpvqc.manager_new.exporter.get_files', return_value=MockedFiles())
-    @patch('mpvqc.manager_new.exporter.ZipFile')
+    @patch('mpvqc.engine.io.doc_exporter.get_settings', return_value=MockedSettings())
+    @patch('mpvqc.engine.io.doc_exporter.get_metadata', return_value=MockedMetadata())
+    @patch('mpvqc.engine.io.doc_exporter.get_files', return_value=MockedFiles())
+    @patch('mpvqc.engine.io.doc_exporter.ZipFile')
     def test_exporter_backup_calls_writestr(self, mock_zip, *_):
 
         class MockedZipFile:

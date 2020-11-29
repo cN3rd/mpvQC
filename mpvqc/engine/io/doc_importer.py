@@ -20,8 +20,8 @@ import re
 from pathlib import Path
 from typing import List
 
-from mpvqc.manager_new.comment import Comment
-from mpvqc.manager_new.document import Document
+from mpvqc.engine.comment import Comment
+from mpvqc.engine.io.document import Document
 
 INVALID = Document(video=Path(''), comments=tuple())
 

@@ -1,6 +1,6 @@
 import unittest
 
-from mpvqc.manager_new.comment import Comment
+from mpvqc.engine.comment import Comment
 
 
 class TestComment(unittest.TestCase):

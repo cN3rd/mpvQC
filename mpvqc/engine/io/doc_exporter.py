@@ -22,8 +22,8 @@ from typing import NamedTuple, Tuple, List, Optional
 from zipfile import ZipFile, ZIP_DEFLATED
 
 from mpvqc import get_settings, get_metadata, get_files
-from mpvqc.manager_new.comment import Comment
-from mpvqc.manager_new.document import Document
+from mpvqc.engine.comment import Comment
+from mpvqc.engine.io.document import Document
 
 
 class DocumentRecipe(NamedTuple):

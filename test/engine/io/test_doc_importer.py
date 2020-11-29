@@ -3,8 +3,8 @@ from pathlib import Path
 from unittest import SkipTest
 from unittest.mock import patch, mock_open
 
-from mpvqc.manager_new.importer import Importer
-from mpvqc.manager_new.document import Document
+from mpvqc.engine.io.doc_importer import Importer
+from mpvqc.engine.io.document import Document
 
 
 def ensure_result(result: Document):
