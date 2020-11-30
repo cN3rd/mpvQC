@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import List
 
 from mpvqc.engine.comment import Comment
-from mpvqc.engine.io.document import Document
+from mpvqc.io.document import Document
 
 INVALID = Document(video=Path(''), comments=tuple())
 
