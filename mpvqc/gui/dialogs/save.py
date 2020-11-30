@@ -29,28 +29,27 @@ _translate = QtCore.QCoreApplication.translate
 
 
 class SaveDialog(Dialog):
-
     PATH_SUGGESTER = SavePathSuggester()
 
     def __init__(self, parent: Optional[QWidget]):
         super().__init__(parent)
         self._path: Optional[Path] = None
 
-    def open(self, for_video: Optional[Path], and_nickname: Optional[str]) -> None:
-        filepath = self._open_dialog(for_video, and_nickname)
+    def open(self, at: Optional[Path]) -> None:
+        filepath = self._open_dialog(at_path=at)
 
         if filepath:
             self._path = Path(filepath)
 
-    def _open_dialog(self, for_video: Optional[Path], and_writer: Optional[str]) -> str:
+    def _open_dialog(self, at_path: Path) -> str:
         caption = _translate("FileInteractionDialogs", "Save QC Document As")
+
+        directory = str(at_path) if at_path else self.home_directory
 
         allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
                   f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
 
-        path = self.PATH_SUGGESTER.suggest(for_video, and_writer)
-
-        return QFileDialog.getSaveFileName(self._parent, caption, str(path), filter=allowed)[0]
+        return QFileDialog.getSaveFileName(self._parent, caption, directory, filter=allowed)[0]
 
     def get_location(self) -> Optional[Path]:
         return self._path
