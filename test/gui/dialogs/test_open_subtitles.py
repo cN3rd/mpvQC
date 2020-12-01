@@ -14,42 +14,35 @@ class TestDocumentsDialog(unittest.TestCase):
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QWidget')
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_existing_parent_is_passed_in(self, mocked_get_open_file_names, mocked_widget):
+    def test_open_passed_in_parent(self, mocked_get_open_file_names, mocked_widget):
         dialog = OpenSubtitlesDialog(parent=mocked_widget)
         dialog.open(last_directory=None)
 
         mocked_get_open_file_names.assert_called_with(mocked_widget, ANY, ANY, filter=ANY)
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_non_existing_parent_is_passed_in(self, mocked_get_open_file_names):
-        dialog = OpenSubtitlesDialog(parent=None)
-        dialog.open(last_directory=None)
-
-        mocked_get_open_file_names.assert_called_with(None, ANY, ANY, filter=ANY)
-
-    @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_caption_exists(self, mocked_get_open_file_names):
+    def test_open_passed_in_caption(self, mocked_get_open_file_names):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
         self.assertTrue(mocked_get_open_file_names.call_args_list[0].args[self.CAPTION])
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_directory_home_by_default(self, mocked_get_open_file_names):
-        dialog = OpenSubtitlesDialog(parent=None)
-        dialog.open(last_directory=None)
-
-        mocked_get_open_file_names.assert_called_with(ANY, ANY, str(self.PATH_HOME), filter=ANY)
-
-    @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_directory_passed_in(self, mocked_get_open_file_names):
+    def test_open_passed_in_path(self, mocked_get_open_file_names):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=self.PATH_ANY)
 
         mocked_get_open_file_names.assert_called_with(ANY, ANY, str(self.PATH_ANY), filter=ANY)
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_allowed_file_filters(self, mocked_get_open_file_names):
+    def test_open_home_by_default(self, mocked_get_open_file_names):
+        dialog = OpenSubtitlesDialog(parent=None)
+        dialog.open(last_directory=None)
+
+        mocked_get_open_file_names.assert_called_with(ANY, ANY, str(self.PATH_HOME), filter=ANY)
+
+    @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
+    def test_open_file_filters_subs(self, mocked_get_open_file_names):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
@@ -58,28 +51,28 @@ class TestDocumentsDialog(unittest.TestCase):
         self.assertIn('*.srt', mocked_get_open_file_names.call_args_list[0].kwargs[self.FILTER])
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_allowed_file_filters_any(self, mocked_get_open_file_names):
+    def test_open_file_filters_any(self, mocked_get_open_file_names):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
         self.assertIn('(*.*)', mocked_get_open_file_names.call_args_list[0].kwargs[self.FILTER])
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames', return_value=([], ''))
-    def test_get_subtitles_returns_none_if_user_cancels_import(self, *_):
+    def test_get_subtitles_on_cancel(self, *_):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
         self.assertFalse(dialog.get_subtitles())
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames', return_value=(['/home/mpvqc/yep.txt'], ''))
-    def test_get_subtitles_returns_one_subtitle_on_one_subtitle_import(self, *_):
+    def test_get_subtitles_on_1_import(self, *_):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
         self.assertEqual(1, len(dialog.get_subtitles()))
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames', return_value=(['/home', '/another-home'], ''))
-    def test_get_subtitle_returns_multiple_subtitles_on_multiple_subtitle_import(self, *_):
+    def test_get_subtitles_on_x_import(self, *_):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 

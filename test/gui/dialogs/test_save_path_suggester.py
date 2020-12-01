@@ -8,7 +8,7 @@ class TestSavePathSuggester(unittest.TestCase):
     PATH_ANY = Path() / 'does' / 'not' / 'exist.mkv'
     PATH_HOME = Path.home()
 
-    def test_suggest_filepath_with_video_with_nick(self):
+    def test_video_nick(self):
         video = self.PATH_ANY
         nick = 'mpvqc'
 
@@ -17,7 +17,7 @@ class TestSavePathSuggester(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    def test_suggest_filepath_with_video_without_nick(self):
+    def test_video(self):
         video = self.PATH_ANY
         nick = None
 
@@ -26,7 +26,7 @@ class TestSavePathSuggester(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    def test_suggest_filepath_without_video_with_nick(self):
+    def test_nick(self):
         video = None
         nick = 'mpvqc'
 
@@ -35,7 +35,7 @@ class TestSavePathSuggester(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    def test_suggest_filepath_without_video_without_nick(self):
+    def test_no(self):
         video = None
         nick = None
 

@@ -35,7 +35,7 @@ class SaveDialog(Dialog):
         super().__init__(parent)
         self._path: Optional[Path] = None
 
-    def open(self, at: Optional[Path]) -> None:
+    def open(self, at: Path) -> None:
         filepath = self._open_dialog(at_path=at)
 
         if filepath:
@@ -44,7 +44,7 @@ class SaveDialog(Dialog):
     def _open_dialog(self, at_path: Path) -> str:
         caption = _translate("FileInteractionDialogs", "Save QC Document As")
 
-        directory = str(at_path) if at_path else self.home_directory
+        directory = str(at_path)
 
         allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
                   f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
