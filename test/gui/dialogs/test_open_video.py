@@ -5,7 +5,7 @@ from unittest.mock import patch, ANY
 from mpvqc.gui.dialogs import OpenVideoDialog
 
 
-class TestDocumentsDialog(unittest.TestCase):
+class TestVideoDialog(unittest.TestCase):
     CAPTION = 1
     FILTER = 'filter'
 

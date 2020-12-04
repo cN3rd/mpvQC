@@ -5,7 +5,7 @@ from unittest.mock import patch, ANY
 from mpvqc.gui.dialogs import OpenSubtitlesDialog
 
 
-class TestDocumentsDialog(unittest.TestCase):
+class TestSubtitlesDialog(unittest.TestCase):
     CAPTION = 1
     FILTER = 'filter'
 

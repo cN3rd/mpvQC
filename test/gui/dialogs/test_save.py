@@ -5,7 +5,7 @@ from unittest.mock import patch, ANY
 from mpvqc.gui.dialogs.save import SaveDialog
 
 
-class TestSave(unittest.TestCase):
+class TestSaveDialog(unittest.TestCase):
     CAPTION = 1
     PATH = 2
     FILTER = 'filter'
