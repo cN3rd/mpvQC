@@ -18,6 +18,6 @@
 
 from .dialog import Dialog
 from .open_documents import OpenDocumentsDialog
-from .save import SaveDialog
+from .open_network_stream import OpenNetworkStreamDialog
 from .open_subtitles import OpenSubtitlesDialog
 from .open_video import OpenVideoDialog
