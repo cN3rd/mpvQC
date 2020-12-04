@@ -26,7 +26,9 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Install libmpv
-      run: sudo apt install libmpv1
+      run: |
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install libmpv1
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
