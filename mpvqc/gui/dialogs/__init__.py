@@ -16,8 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from .app_dialogs import AppDialogs
 from .dialog import Dialog
 from .open_documents import OpenDocumentsDialog
 from .open_network_stream import OpenNetworkStreamDialog
 from .open_subtitles import OpenSubtitlesDialog
 from .open_video import OpenVideoDialog
+from .save import SaveDialog
