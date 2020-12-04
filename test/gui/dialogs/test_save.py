@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from unittest.mock import patch, ANY
+from unittest.mock import patch, ANY, Mock
 
 from mpvqc.gui.dialogs.save import SaveDialog
 
@@ -15,21 +15,21 @@ class TestSaveDialog(unittest.TestCase):
 
     @patch('mpvqc.gui.dialogs.save.QWidget')
     @patch('mpvqc.gui.dialogs.save.QFileDialog.getSaveFileName')
-    def test_open_passed_in_parent(self, mocked_get_save_file_name, mocked_widget):
+    def test_open_passed_in_parent(self, mocked_get_save_file_name: Mock, mocked_widget: Mock):
         dialog = SaveDialog(parent=mocked_widget)
         dialog.open(at=self.PATH_ANY)
 
         mocked_get_save_file_name.assert_called_with(mocked_widget, ANY, ANY, filter=ANY)
 
     @patch('mpvqc.gui.dialogs.save.QFileDialog.getSaveFileName')
-    def test_open_passed_in_caption(self, mocked_get_save_file_name):
+    def test_open_passed_in_caption(self, mocked_get_save_file_name: Mock):
         dialog = SaveDialog(parent=None)
         dialog.open(at=self.PATH_ANY)
 
         self.assertTrue(mocked_get_save_file_name.call_args[self.CAPTION])
 
     @patch('mpvqc.gui.dialogs.save.QFileDialog.getSaveFileName')
-    def test_open_passed_in_path(self, mocked_get_save_file_name):
+    def test_open_passed_in_path(self, mocked_get_save_file_name: Mock):
         dialog = SaveDialog(parent=None)
         dialog.open(at=self.PATH_ANY)
 
@@ -37,14 +37,14 @@ class TestSaveDialog(unittest.TestCase):
         self.assertEqual(Path(arg_path).resolve(), self.PATH_ANY.resolve())
 
     @patch('mpvqc.gui.dialogs.save.QFileDialog.getSaveFileName')
-    def test_open_file_filters_txt(self, mocked_get_save_file_name):
+    def test_open_file_filters_txt(self, mocked_get_save_file_name: Mock):
         dialog = SaveDialog(parent=None)
         dialog.open(at=self.PATH_ANY)
 
         self.assertIn('(*.txt)', mocked_get_save_file_name.call_args_list[0].kwargs[self.FILTER])
 
     @patch('mpvqc.gui.dialogs.save.QFileDialog.getSaveFileName')
-    def test_open_file_filters_any(self, mocked_get_save_file_name):
+    def test_open_file_filters_any(self, mocked_get_save_file_name: Mock):
         dialog = SaveDialog(parent=None)
         dialog.open(at=self.PATH_ANY)
 

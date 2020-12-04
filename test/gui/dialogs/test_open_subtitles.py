@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from unittest.mock import patch, ANY
+from unittest.mock import patch, ANY, Mock
 
 from mpvqc.gui.dialogs import OpenSubtitlesDialog
 
@@ -14,35 +14,35 @@ class TestSubtitlesDialog(unittest.TestCase):
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QWidget')
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_passed_in_parent(self, mocked_get_open_file_names, mocked_widget):
+    def test_open_passed_in_parent(self, mocked_get_open_file_names: Mock, mocked_widget: Mock):
         dialog = OpenSubtitlesDialog(parent=mocked_widget)
         dialog.open(last_directory=None)
 
         mocked_get_open_file_names.assert_called_with(mocked_widget, ANY, ANY, filter=ANY)
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_passed_in_caption(self, mocked_get_open_file_names):
+    def test_open_passed_in_caption(self, mocked_get_open_file_names: Mock):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
         self.assertTrue(mocked_get_open_file_names.call_args_list[0].args[self.CAPTION])
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_passed_in_path(self, mocked_get_open_file_names):
+    def test_open_passed_in_path(self, mocked_get_open_file_names: Mock):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=self.PATH_ANY)
 
         mocked_get_open_file_names.assert_called_with(ANY, ANY, str(self.PATH_ANY), filter=ANY)
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_home_by_default(self, mocked_get_open_file_names):
+    def test_open_home_by_default(self, mocked_get_open_file_names: Mock):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
         mocked_get_open_file_names.assert_called_with(ANY, ANY, str(self.PATH_HOME), filter=ANY)
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_file_filters_subs(self, mocked_get_open_file_names):
+    def test_open_file_filters_subs(self, mocked_get_open_file_names: Mock):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
@@ -51,7 +51,7 @@ class TestSubtitlesDialog(unittest.TestCase):
         self.assertIn('*.srt', mocked_get_open_file_names.call_args_list[0].kwargs[self.FILTER])
 
     @patch('mpvqc.gui.dialogs.open_subtitles.QFileDialog.getOpenFileNames')
-    def test_open_file_filters_any(self, mocked_get_open_file_names):
+    def test_open_file_filters_any(self, mocked_get_open_file_names: Mock):
         dialog = OpenSubtitlesDialog(parent=None)
         dialog.open(last_directory=None)
 
