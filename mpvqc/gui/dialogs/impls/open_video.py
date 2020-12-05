@@ -20,36 +20,36 @@ from pathlib import Path
 from typing import Optional
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QFileDialog, QWidget
+from PyQt5.QtWidgets import QWidget, QFileDialog
 
-from mpvqc.gui.dialogs.dialog import Dialog
-from mpvqc.gui.dialogs.save_path_suggester import SavePathSuggester
+from mpvqc.gui.dialogs.impls.dialog import Dialog
 
 _translate = QtCore.QCoreApplication.translate
 
 
-class SaveDialog(Dialog):
-    PATH_SUGGESTER = SavePathSuggester()
+class OpenVideoDialog(Dialog):
 
-    def __init__(self, parent: Optional[QWidget]):
+    def __init__(self, parent: Optional[QWidget] = None):
         super().__init__(parent)
-        self._path: Optional[Path] = None
+        self._video: Optional[Path] = None
 
-    def open(self, at: Path) -> None:
-        filepath = self._open_dialog(at_path=at)
+    def open(self, last_directory: Optional[Path]) -> None:
+        video = self._open_dialog(in_directory=last_directory)
 
-        if filepath:
-            self._path = Path(filepath)
+        if video:
+            self._video = Path(video[0])
 
-    def _open_dialog(self, at_path: Path) -> str:
-        caption = _translate("FileInteractionDialogs", "Save QC Document As")
+    def _open_dialog(self, in_directory: Optional[Path]) -> str:
+        caption = _translate("FileInteractionDialogs", "Open Video File")
 
-        directory = str(at_path)
+        directory = str(in_directory) if in_directory else self.home_directory
 
-        allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
+        allowed = f"{_translate('FileInteractionDialogs', 'Video files')} (*.mp4 *.mkv *.avi);;" \
                   f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
 
-        return QFileDialog.getSaveFileName(self._parent, caption, directory, filter=allowed)[0]
+        return QFileDialog.getOpenFileName(self._parent, caption, directory, filter=allowed)[0]
 
-    def get_location(self) -> Optional[Path]:
-        return self._path
+    def get_video(self) -> Optional[Path]:
+        return self._video
+
+

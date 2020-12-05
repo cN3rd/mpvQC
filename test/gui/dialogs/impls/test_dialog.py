@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from mpvqc.gui.dialogs import Dialog
+from mpvqc.gui.dialogs.impls import Dialog
 
 
 class TestDialog(unittest.TestCase):

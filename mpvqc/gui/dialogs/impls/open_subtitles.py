@@ -22,32 +22,36 @@ from typing import Optional, Tuple, List
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QFileDialog
 
-from mpvqc.gui.dialogs.dialog import Dialog
+from mpvqc.gui.dialogs.impls.dialog import Dialog
 
 _translate = QtCore.QCoreApplication.translate
 
+_SUPPORTED_SUB_FILES = (".ass", ".ssa", ".srt", ".sup", ".idx", ".utf", ".utf8", ".utf-8", ".smi",
+                        ".rt", ".aqt", ".jss", ".js", ".mks", ".vtt", ".sub", ".scc")
 
-class OpenDocumentsDialog(Dialog):
+
+class OpenSubtitlesDialog(Dialog):
+    SUBTITLES = " ".join(["*" + x for x in _SUPPORTED_SUB_FILES])
 
     def __init__(self, parent: Optional[QWidget] = None):
         super().__init__(parent)
-        self._documents: Tuple[Path] = tuple()
+        self._subtitles: Tuple[Path] = tuple()
 
     def open(self, last_directory: Optional[Path]) -> None:
-        documents = self._open_dialog(in_directory=last_directory)
+        subtitles = self._open_dialog(in_directory=last_directory)
 
-        if documents:
-            self._documents = self.as_paths(documents)
+        if subtitles:
+            self._subtitles = self.as_paths(subtitles)
 
     def _open_dialog(self, in_directory: Optional[Path]) -> List[str]:
-        caption = _translate("FileInteractionDialogs", "Open QC Document(s)")
+        caption = _translate("FileInteractionDialogs", "Open Subtitle File")
 
-        allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
+        allowed = f"{_translate('FileInteractionDialogs', 'Subtitle files')} ({self.SUBTITLES});;" \
                   f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
 
         directory = str(in_directory) if in_directory else self.home_directory
 
         return QFileDialog.getOpenFileNames(self._parent, caption, directory, filter=allowed)[0]
 
-    def get_documents(self) -> Tuple[Path]:
-        return self._documents
+    def get_subtitles(self) -> Tuple[Path]:
+        return self._subtitles

@@ -20,36 +20,36 @@ from pathlib import Path
 from typing import Optional
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QWidget
 
-from mpvqc.gui.dialogs.dialog import Dialog
+from mpvqc.gui.dialogs.impls.dialog import Dialog
+from mpvqc.gui.dialogs.save_path_suggester import SavePathSuggester
 
 _translate = QtCore.QCoreApplication.translate
 
 
-class OpenVideoDialog(Dialog):
+class SaveDialog(Dialog):
+    PATH_SUGGESTER = SavePathSuggester()
 
-    def __init__(self, parent: Optional[QWidget] = None):
+    def __init__(self, parent: Optional[QWidget]):
         super().__init__(parent)
-        self._video: Optional[Path] = None
+        self._path: Optional[Path] = None
 
-    def open(self, last_directory: Optional[Path]) -> None:
-        video = self._open_dialog(in_directory=last_directory)
+    def open(self, at: Path) -> None:
+        filepath = self._open_dialog(at_path=at)
 
-        if video:
-            self._video = Path(video[0])
+        if filepath:
+            self._path = Path(filepath)
 
-    def _open_dialog(self, in_directory: Optional[Path]) -> str:
-        caption = _translate("FileInteractionDialogs", "Open Video File")
+    def _open_dialog(self, at_path: Path) -> str:
+        caption = _translate("FileInteractionDialogs", "Save QC Document As")
 
-        directory = str(in_directory) if in_directory else self.home_directory
+        directory = str(at_path)
 
-        allowed = f"{_translate('FileInteractionDialogs', 'Video files')} (*.mp4 *.mkv *.avi);;" \
+        allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
                   f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
 
-        return QFileDialog.getOpenFileName(self._parent, caption, directory, filter=allowed)[0]
+        return QFileDialog.getSaveFileName(self._parent, caption, directory, filter=allowed)[0]
 
-    def get_video(self) -> Optional[Path]:
-        return self._video
-
-
+    def get_location(self) -> Optional[Path]:
+        return self._path

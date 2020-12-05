@@ -4,11 +4,11 @@ from typing import Tuple, Optional
 from PyQt5.QtWidgets import QWidget
 
 from mpvqc import get_settings
-from .open_documents import OpenDocumentsDialog
-from .open_network_stream import OpenNetworkStreamDialog
-from .open_subtitles import OpenSubtitlesDialog
-from .open_video import OpenVideoDialog
-from .save import SaveDialog
+from mpvqc.gui.dialogs.impls.open_documents import OpenDocumentsDialog
+from mpvqc.gui.dialogs.impls.open_network_stream import OpenNetworkStreamDialog
+from mpvqc.gui.dialogs.impls.open_subtitles import OpenSubtitlesDialog
+from mpvqc.gui.dialogs.impls.open_video import OpenVideoDialog
+from mpvqc.gui.dialogs.impls.save import SaveDialog
 
 
 class AppDialogs:
