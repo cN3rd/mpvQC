@@ -4,14 +4,14 @@ from typing import Tuple, Optional
 from PyQt5.QtWidgets import QWidget
 
 from mpvqc import get_settings
-from mpvqc.gui.dialogs.impls.open_documents import OpenDocumentsDialog
-from mpvqc.gui.dialogs.impls.open_network_stream import OpenNetworkStreamDialog
-from mpvqc.gui.dialogs.impls.open_subtitles import OpenSubtitlesDialog
-from mpvqc.gui.dialogs.impls.open_video import OpenVideoDialog
-from mpvqc.gui.dialogs.impls.save import SaveDialog
+from mpvqc.gui.filedialogs.impls.fd_open_documents import OpenDocumentsDialog
+from mpvqc.gui.filedialogs.impls.fd_open_network_stream import OpenNetworkStreamDialog
+from mpvqc.gui.filedialogs.impls.fd_open_subtitles import OpenSubtitlesDialog
+from mpvqc.gui.filedialogs.impls.fd_open_video import OpenVideoDialog
+from mpvqc.gui.filedialogs.impls.fd_save import SaveDialog
 
 
-class AppDialogs:
+class Dialogs:
 
     @staticmethod
     def import_documents(parent: Optional[QWidget] = None) -> Tuple[Path]:

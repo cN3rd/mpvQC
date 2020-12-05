@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from mpvqc.gui.dialogs.save_path_suggester import SavePathSuggester
+from mpvqc.gui.filedialogs.save_path_suggester import SavePathSuggester
 
 
 class TestSavePathSuggester(unittest.TestCase):

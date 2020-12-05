@@ -20,25 +20,30 @@ from pathlib import Path
 from typing import Optional
 
 from PyQt5 import QtCore
+from PyQt5.QtWidgets import QWidget, QInputDialog
+
+from .fd_dialog import Dialog
 
 _translate = QtCore.QCoreApplication.translate
 
 
-class SavePathSuggester:
-    # todo move out of dialogs package
+class OpenNetworkStreamDialog(Dialog):
 
-    @staticmethod
-    def suggest(for_video: Optional[Path], and_writer: Optional[str]) -> Path:
-        folder = SavePathSuggester._suggest_directory(for_video)
-        filename = SavePathSuggester._suggest_filename(for_video, and_writer)
-        return folder / filename
+    def __init__(self, parent: Optional[QWidget] = None):
+        super().__init__(parent)
+        self._path: Optional[str] = None
 
-    @staticmethod
-    def _suggest_directory(video: Optional[Path]) -> Path:
-        return video.parent if video else Path.home()
+    def open(self) -> None:
+        dialog = QInputDialog(self._parent)
+        dialog.setInputMode(QInputDialog.TextInput)
+        dialog.setWindowTitle(_translate("FileInteractionDialogs", "Open Network Stream"))
+        dialog.setLabelText(_translate("FileInteractionDialogs", "Enter URL:"))
+        dialog.resize(700, 0)
+        dialog.exec_()
 
-    @staticmethod
-    def _suggest_filename(video: Optional[Path], writer: Optional[str]) -> str:
-        video = video.stem if video else _translate("FileInteractionDialogs", "untitled")
-        writer = f'_{writer}' if writer else ''
-        return f'[QC]_{video}{writer}.txt'
+        path = dialog.textValue()
+        if path:
+            self._path = Path(path)
+
+    def get_path(self) -> Optional[Path]:
+        return self._path

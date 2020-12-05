@@ -17,39 +17,37 @@
 
 
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple, List
 
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QFileDialog
 
-from mpvqc.gui.dialogs.impls.dialog import Dialog
+from mpvqc.gui.filedialogs.impls.fd_dialog import Dialog
 
 _translate = QtCore.QCoreApplication.translate
 
 
-class OpenVideoDialog(Dialog):
+class OpenDocumentsDialog(Dialog):
 
     def __init__(self, parent: Optional[QWidget] = None):
         super().__init__(parent)
-        self._video: Optional[Path] = None
+        self._documents: Tuple[Path] = tuple()
 
     def open(self, last_directory: Optional[Path]) -> None:
-        video = self._open_dialog(in_directory=last_directory)
+        documents = self._open_dialog(in_directory=last_directory)
 
-        if video:
-            self._video = Path(video[0])
+        if documents:
+            self._documents = self.as_paths(documents)
 
-    def _open_dialog(self, in_directory: Optional[Path]) -> str:
-        caption = _translate("FileInteractionDialogs", "Open Video File")
+    def _open_dialog(self, in_directory: Optional[Path]) -> List[str]:
+        caption = _translate("FileInteractionDialogs", "Open QC Document(s)")
+
+        allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
+                  f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
 
         directory = str(in_directory) if in_directory else self.home_directory
 
-        allowed = f"{_translate('FileInteractionDialogs', 'Video files')} (*.mp4 *.mkv *.avi);;" \
-                  f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
+        return QFileDialog.getOpenFileNames(self._parent, caption, directory, filter=allowed)[0]
 
-        return QFileDialog.getOpenFileName(self._parent, caption, directory, filter=allowed)[0]
-
-    def get_video(self) -> Optional[Path]:
-        return self._video
-
-
+    def get_documents(self) -> Tuple[Path]:
+        return self._documents

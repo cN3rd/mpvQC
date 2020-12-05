@@ -16,4 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from .app_dialogs import AppDialogs
+from .fd_dialog import Dialog
+from .fd_open_documents import OpenDocumentsDialog
+from .fd_open_network_stream import OpenNetworkStreamDialog
+from .fd_open_subtitles import OpenSubtitlesDialog
+from .fd_open_video import OpenVideoDialog
+from .fd_save import SaveDialog

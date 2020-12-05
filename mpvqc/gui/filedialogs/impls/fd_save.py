@@ -17,37 +17,39 @@
 
 
 from pathlib import Path
-from typing import Optional, Tuple, List
+from typing import Optional
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QWidget
 
-from mpvqc.gui.dialogs.impls.dialog import Dialog
+from mpvqc.gui.filedialogs.impls.fd_dialog import Dialog
+from mpvqc.gui.filedialogs.save_path_suggester import SavePathSuggester
 
 _translate = QtCore.QCoreApplication.translate
 
 
-class OpenDocumentsDialog(Dialog):
+class SaveDialog(Dialog):
+    PATH_SUGGESTER = SavePathSuggester()
 
-    def __init__(self, parent: Optional[QWidget] = None):
+    def __init__(self, parent: Optional[QWidget]):
         super().__init__(parent)
-        self._documents: Tuple[Path] = tuple()
+        self._path: Optional[Path] = None
 
-    def open(self, last_directory: Optional[Path]) -> None:
-        documents = self._open_dialog(in_directory=last_directory)
+    def open(self, at: Path) -> None:
+        filepath = self._open_dialog(at_path=at)
 
-        if documents:
-            self._documents = self.as_paths(documents)
+        if filepath:
+            self._path = Path(filepath)
 
-    def _open_dialog(self, in_directory: Optional[Path]) -> List[str]:
-        caption = _translate("FileInteractionDialogs", "Open QC Document(s)")
+    def _open_dialog(self, at_path: Path) -> str:
+        caption = _translate("FileInteractionDialogs", "Save QC Document As")
+
+        directory = str(at_path)
 
         allowed = f"{_translate('FileInteractionDialogs', 'QC documents')} (*.txt);;" \
                   f"{_translate('FileInteractionDialogs', 'All files')} (*.*)"
 
-        directory = str(in_directory) if in_directory else self.home_directory
+        return QFileDialog.getSaveFileName(self._parent, caption, directory, filter=allowed)[0]
 
-        return QFileDialog.getOpenFileNames(self._parent, caption, directory, filter=allowed)[0]
-
-    def get_documents(self) -> Tuple[Path]:
-        return self._documents
+    def get_location(self) -> Optional[Path]:
+        return self._path
