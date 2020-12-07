@@ -19,13 +19,15 @@
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QMessageBox
 
+from mpvqc.gui.messageboxes.impls.mb_messagebox import MessageBox
+
 _translate = QCoreApplication.translate
 
 
-class CouldNotSaveDocumentMessageBox:
+class CouldNotSaveDocumentMessageBox(MessageBox):
 
     def popup(self) -> None:
-        mb = QMessageBox()
+        mb = QMessageBox(self._parent)
         mb.setWindowTitle(self._title())
         mb.setText(self._text())
         mb.setIcon(QMessageBox.Critical)

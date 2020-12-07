@@ -17,9 +17,12 @@
 
 
 from enum import Enum, auto
+from typing import Optional
 
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QWidget
+
+from mpvqc.gui.messageboxes.impls.mb_messagebox import MessageBox
 
 _translate = QCoreApplication.translate
 
@@ -30,18 +33,19 @@ class ExistingCommentsDuringImportResponse(Enum):
     KEEP_COMMENTS = auto()
 
 
-class ExistingCommentsDuringImportMessageBox:
+class ExistingCommentsDuringImportMessageBox(MessageBox):
     _RESPONSES = {
         0: ExistingCommentsDuringImportResponse.DELETE_COMMENTS,
         1: ExistingCommentsDuringImportResponse.KEEP_COMMENTS,
         QMessageBox.Abort: ExistingCommentsDuringImportResponse.CANCEL_IMPORT,
     }
 
-    def __init__(self):
+    def __init__(self, parent: Optional[QWidget] = None):
+        super().__init__(parent)
         self._response = ExistingCommentsDuringImportResponse.CANCEL_IMPORT
 
     def popup(self) -> None:
-        mb = QMessageBox()
+        mb = QMessageBox(self._parent)
         mb.setWindowTitle(_translate("MessageBoxes", "Existing Comments"))
         mb.setText(_translate("MessageBoxes", "What do you want to do with the existing comments?"))
         mb.setIcon(QMessageBox.Question)

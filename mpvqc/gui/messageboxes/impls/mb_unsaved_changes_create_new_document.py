@@ -17,9 +17,12 @@
 
 
 from enum import Enum, auto
+from typing import Optional
 
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QWidget
+
+from mpvqc.gui.messageboxes.impls.mb_messagebox import MessageBox
 
 _translate = QCoreApplication.translate
 
@@ -29,17 +32,18 @@ class UnsavedChangesCreateNewDocumentResponse(Enum):
     CREATE_NEW = auto()
 
 
-class UnsavedChangesCreateNewDocumentMessageBox:
+class UnsavedChangesCreateNewDocumentMessageBox(MessageBox):
     _RESPONSES = {
         QMessageBox.Yes: UnsavedChangesCreateNewDocumentResponse.CREATE_NEW,
         QMessageBox.No: UnsavedChangesCreateNewDocumentResponse.CANCEL,
     }
 
-    def __init__(self):
+    def __init__(self, parent: Optional[QWidget] = None):
+        super().__init__(parent)
         self._response = UnsavedChangesCreateNewDocumentResponse.CANCEL
 
     def popup(self) -> None:
-        mb = QMessageBox()
+        mb = QMessageBox(self._parent)
         mb.setWindowTitle(_translate("MessageBoxes", "Unsaved Changes"))
         mb.setText(_translate("MessageBoxes", "Do you really want to create a new QC document without saving your QC?"))
         mb.setIcon(QMessageBox.Critical)

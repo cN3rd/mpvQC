@@ -17,9 +17,12 @@
 
 
 from enum import Enum, auto
+from typing import Optional
 
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QWidget
+
+from mpvqc.gui.messageboxes.impls.mb_messagebox import MessageBox
 
 _translate = QCoreApplication.translate
 
@@ -29,17 +32,18 @@ class ValidVideoFileFoundResponse(Enum):
     OPEN = auto()
 
 
-class ValidVideoFileFoundMessageBox:
+class ValidVideoFileFoundMessageBox(MessageBox):
     _RESPONSES = {
         QMessageBox.Yes: ValidVideoFileFoundResponse.OPEN,
         QMessageBox.No: ValidVideoFileFoundResponse.NOT_OPEN,
     }
 
-    def __init__(self):
+    def __init__(self, parent: Optional[QWidget] = None):
+        super().__init__(parent)
         self._response = ValidVideoFileFoundResponse.NOT_OPEN
 
     def popup(self) -> None:
-        mb = QMessageBox()
+        mb = QMessageBox(self._parent)
         mb.setWindowTitle(_translate("MessageBoxes", "Video Found"))
         mb.setText(_translate("MessageBoxes", "A video was found. Do you want to open it?"))
         mb.setIcon(QMessageBox.Question)

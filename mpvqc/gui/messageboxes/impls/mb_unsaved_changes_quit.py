@@ -17,9 +17,12 @@
 
 
 from enum import Enum, auto
+from typing import Optional
 
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QWidget
+
+from mpvqc.gui.messageboxes.impls.mb_messagebox import MessageBox
 
 _translate = QCoreApplication.translate
 
@@ -29,17 +32,18 @@ class UnsavedChangesQuitResponse(Enum):
     QUIT = auto()
 
 
-class UnsavedChangesQuitMessageBox:
+class UnsavedChangesQuitMessageBox(MessageBox):
     _RESPONSES = {
         QMessageBox.Yes: UnsavedChangesQuitResponse.QUIT,
         QMessageBox.No: UnsavedChangesQuitResponse.CANCEL,
     }
 
-    def __init__(self):
+    def __init__(self, parent: Optional[QWidget] = None):
+        super().__init__(parent)
         self._response = UnsavedChangesQuitResponse.CANCEL
 
     def popup(self) -> None:
-        mb = QMessageBox()
+        mb = QMessageBox(self._parent)
         mb.setWindowTitle(_translate("MessageBoxes", "Unsaved Changes"))
         mb.setText(_translate("MessageBoxes", "Do you really want to quit without saving your QC?"))
         mb.setIcon(QMessageBox.Critical)

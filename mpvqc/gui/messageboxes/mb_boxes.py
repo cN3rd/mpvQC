@@ -17,7 +17,9 @@
 
 
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, Optional
+
+from PyQt5.QtWidgets import QWidget
 
 from mpvqc.gui.messageboxes.impls.mb_could_not_save_document import \
     CouldNotSaveDocumentMessageBox
@@ -40,35 +42,35 @@ from mpvqc.gui.messageboxes.impls.mb_valid_video_file_found import \
 class MessageBoxes:
 
     @staticmethod
-    def could_not_save_document() -> None:
-        mb = CouldNotSaveDocumentMessageBox()
+    def could_not_save_document(parent: Optional[QWidget] = None) -> None:
+        mb = CouldNotSaveDocumentMessageBox(parent)
         mb.popup()
 
     @staticmethod
-    def existing_comments_during_import() -> ExistingCommentsDuringImportResponse:
-        mb = ExistingCommentsDuringImportMessageBox()
-        mb.popup()
-        return mb.response()
-
-    @staticmethod
-    def invalid_documents_during_import(invalid_files: Tuple[Path]) -> None:
-        mb = InvalidDocumentDuringImportMessageBox(invalid_files)
-        mb.popup()
-
-    @staticmethod
-    def unsaved_changes_create_new_document() -> UnsavedChangesCreateNewDocumentResponse:
-        mb = UnsavedChangesCreateNewDocumentMessageBox()
+    def existing_comments_during_import(parent: Optional[QWidget] = None) -> ExistingCommentsDuringImportResponse:
+        mb = ExistingCommentsDuringImportMessageBox(parent)
         mb.popup()
         return mb.response()
 
     @staticmethod
-    def unsaved_changes_quit() -> UnsavedChangesQuitResponse:
-        mb = UnsavedChangesQuitMessageBox()
+    def invalid_documents_during_import(invalid_files: Tuple[Path], parent: Optional[QWidget] = None) -> None:
+        mb = InvalidDocumentDuringImportMessageBox(invalid_files, parent)
+        mb.popup()
+
+    @staticmethod
+    def unsaved_changes_create_new_document(parent: Optional[QWidget] = None) -> UnsavedChangesCreateNewDocumentResponse:
+        mb = UnsavedChangesCreateNewDocumentMessageBox(parent)
         mb.popup()
         return mb.response()
 
     @staticmethod
-    def valid_video_found() -> ValidVideoFileFoundResponse:
-        mb = ValidVideoFileFoundMessageBox()
+    def unsaved_changes_quit(parent: Optional[QWidget] = None) -> UnsavedChangesQuitResponse:
+        mb = UnsavedChangesQuitMessageBox(parent)
+        mb.popup()
+        return mb.response()
+
+    @staticmethod
+    def valid_video_found(parent: Optional[QWidget] = None) -> ValidVideoFileFoundResponse:
+        mb = ValidVideoFileFoundMessageBox(parent)
         mb.popup()
         return mb.response()

@@ -17,22 +17,25 @@
 
 
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, Optional
 
 from PyQt5.QtCore import QCoreApplication
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QWidget
+
+from mpvqc.gui.messageboxes.impls.mb_messagebox import MessageBox
 
 _translate = QCoreApplication.translate
 
 
-class InvalidDocumentDuringImportMessageBox:
+class InvalidDocumentDuringImportMessageBox(MessageBox):
 
-    def __init__(self, invalid_files: Tuple[Path]):
+    def __init__(self, invalid_files: Tuple[Path], parent: Optional[QWidget] = None):
+        super().__init__(parent)
         self._invalid_files = invalid_files
         self._amount = len(invalid_files)
 
     def popup(self) -> None:
-        mb = QMessageBox()
+        mb = QMessageBox(self._parent)
         mb.setWindowTitle(self._title())
         mb.setText(self._text())
         mb.setInformativeText(self._informative_text())
