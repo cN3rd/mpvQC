@@ -51,6 +51,11 @@ class TestFileReader(unittest.TestCase):
                 reader.read()
                 return reader.get_document()
 
+    def test_file_incompatible_empty(self):
+        content = ''
+
+        self.assertRaises(NotADocumentError, self._read, content)
+
     def test_file_incompatible(self):
         content = f'[NOT A FILE]'
 
