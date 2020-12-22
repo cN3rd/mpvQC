@@ -20,9 +20,10 @@ from PyQt5.QtGui import QShowEvent, QCursor, QCloseEvent, QDragEnterEvent, QDrop
 from PyQt5.QtWidgets import QMainWindow, QApplication, QStyle, QDesktopWidget, QVBoxLayout, QWidget, QStyleFactory
 
 from mpvqc import get_settings, get_resources
+from mpvqc.core import SUPPORTED_SUB_FILES
+from mpvqc.gui.filedialogs import Dialogs
 from mpvqc.ui import Ui_MainWindow
 from mpvqc.uihandler._search_form import SearchHandler
-from mpvqc.uiutil import SUPPORTED_SUB_FILES, dialogs
 
 _translate = QCoreApplication.translate
 
@@ -290,10 +291,10 @@ class MainHandler(QMainWindow):
 
     def __action_open_network_stream(self) -> None:
 
-        url = dialogs.get_open_network_stream(self)
+        url = Dialogs.import_network_stream()
 
         if url:
-            self.__player.open_url(url, play=True)
+            self.__player.open_url(str(url), play=True)
 
     def __action_resize_video(self) -> None:
         self.__resize_video()

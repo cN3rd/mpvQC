@@ -16,5 +16,5 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from mpvqc.core.comment import Comment
-from mpvqc.core.subtitles import SUPPORTED_SUB_FILES
+SUPPORTED_SUB_FILES = (".ass", ".ssa", ".srt", ".sup", ".idx", ".utf", ".utf8", ".utf-8", ".smi",
+                       ".rt", ".aqt", ".jss", ".js", ".mks", ".vtt", ".sub", ".scc")

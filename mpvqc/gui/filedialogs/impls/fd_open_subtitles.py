@@ -22,16 +22,14 @@ from typing import Optional, Tuple, List
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QFileDialog
 
+from mpvqc.core import SUPPORTED_SUB_FILES
 from mpvqc.gui.filedialogs.impls.fd_dialog import Dialog
 
 _translate = QtCore.QCoreApplication.translate
 
-_SUPPORTED_SUB_FILES = (".ass", ".ssa", ".srt", ".sup", ".idx", ".utf", ".utf8", ".utf-8", ".smi",
-                        ".rt", ".aqt", ".jss", ".js", ".mks", ".vtt", ".sub", ".scc")
-
 
 class OpenSubtitlesDialog(Dialog):
-    SUBTITLES = " ".join(["*" + x for x in _SUPPORTED_SUB_FILES])
+    SUBTITLES = " ".join(["*" + x for x in SUPPORTED_SUB_FILES])
 
     def __init__(self, parent: Optional[QWidget] = None):
         super().__init__(parent)
