@@ -28,6 +28,9 @@ class NewDocumentMessageBox:
         self._parent = app.parent()
         self._response: Optional[MbResponse] = None
 
+    def ask(self) -> None:
+        self._ensure_response()
+
     def do_we_create_new(self) -> bool:
         self._ensure_response()
         return self._response == MbResponse.CREATE_NEW

@@ -24,3 +24,8 @@ class DocumentExporter:
     @staticmethod
     def export(document: Document):
         Exporter.export(document, to_path=document.file)
+
+    @staticmethod
+    def backup(document: Document):
+        Exporter.backup(document)
+

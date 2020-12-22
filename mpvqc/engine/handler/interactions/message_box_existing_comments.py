@@ -28,6 +28,9 @@ class ExistingCommentsMessageBox:
         self._parent = app.parent()
         self._response: Optional[MbResponse] = None
 
+    def ask(self):
+        self._ensure_response()
+
     def do_we_abort(self) -> bool:
         self._ensure_response()
         return self._response == MbResponse.CANCEL_IMPORT
@@ -35,9 +38,6 @@ class ExistingCommentsMessageBox:
     def do_we_clear_table(self) -> bool:
         self._ensure_response()
         return self._response == MbResponse.DELETE_COMMENTS
-
-    def ask(self):
-        self._ensure_response()
 
     def _ensure_response(self):
         if self._we_dont_have_response():

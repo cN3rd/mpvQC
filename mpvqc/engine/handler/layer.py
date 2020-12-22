@@ -21,7 +21,6 @@ from typing import TypeVar, Generic
 
 
 from mpvqc.engine.interface import Options
-from mpvqc.engine.states import State, ImportChanges
 
 Response = TypeVar('Response')
 
@@ -34,7 +33,7 @@ class FlowHandler:
         pass
 
     @abstractmethod
-    def get_changes(self) -> ImportChanges:
+    def get_changes(self):
         pass
 
 
@@ -42,7 +41,7 @@ class UserQuestionHandler(Generic[Response]):
     """TOP LAYER"""
 
     @abstractmethod
-    def ask_with(self, current: State, options: Options) -> Response:
+    def ask_with(self, options: Options) -> Response:
         pass
 
 
@@ -50,7 +49,7 @@ class FlowActions:
     """MIDDLE LAYER"""
 
     @abstractmethod
-    def get_changes(self) -> ImportChanges:
+    def get_changes(self):
         pass
 
 
