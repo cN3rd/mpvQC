@@ -30,36 +30,37 @@ class FileReader:
     def __init__(self, file: Path):
         self._file = file
         self._parser = DocumentLineParser()
-        self._have_checked = False
 
     def read(self) -> None:
         with self._file.open('r', encoding='utf-8-sig') as lines:
             self._process(lines)
 
     def _process(self, lines: TextIO):
-        for line in lines:
-            self._process_each(line)
+        self._validate_first_of(lines)
+        self._read_rest_of(lines)
 
-    def _process_each(self, line: str):
-        if self._have_checked:
-            self._parse(line.strip())
-        else:
-            self._validate(line)
-
-    def _parse(self, line: str):
-        self._parser.parse(line)
+    def _validate_first_of(self, lines: TextIO):
+        self._validate(lines.readline())
 
     def _validate(self, line: str):
-        if self._is_not_valid_first(line):
+        if self._is_not_valid_first(line.strip()):
             raise NotADocumentError(self._file)
-
-        self._have_checked = True
 
     def _is_not_valid_first(self, line: str):
         return not self._is_valid_first(line)
 
     def _is_valid_first(self, line: str):
         return line.startswith(self.PREFIX)
+
+    def _read_rest_of(self, lines: TextIO):
+        for line in lines:
+            self._process_each(line)
+
+    def _process_each(self, line: str):
+        self._parse(line.strip())
+
+    def _parse(self, line: str):
+        self._parser.parse(line)
 
     def get_document(self) -> Document:
         return Document(
