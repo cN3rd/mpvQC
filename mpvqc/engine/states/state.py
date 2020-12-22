@@ -44,8 +44,7 @@ class State(ABC):
         return isinstance(other, State) \
                and self._file == other._file \
                and self._video == other._video \
-               and self._comments == other._comments \
-               and self._saved == other._saved
+               and self._comments == other._comments
 
     def __str__(self):
         return f'Document path       : {self._file}\n' \
@@ -85,7 +84,7 @@ class State(ABC):
         from mpvqc.engine.states.changes_comments import CommentsEvaluator
         return CommentsEvaluator(changes, state=self, comments=options.table.get_all_comments()).evaluate()
 
-    def evaluate_new_document(self, changes) -> 'State':
+    def evaluate_new_document(self, changes, __: Options) -> 'State':
         from mpvqc.engine.states.changes_new import NewDocumentEvaluator
         return NewDocumentEvaluator(changes, state=self).evaluate()
 

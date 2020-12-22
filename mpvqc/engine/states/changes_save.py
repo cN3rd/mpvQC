@@ -39,9 +39,14 @@ class SaveEvaluator:
     def evaluate(self) -> State:
         new, current, comments = self._changes, self._current, self._comments
 
-        return SavedState(
-            file=new.save_path or current.path,
-            video=current.video,
-            stored_video=None,
-            comments=comments
-        )
+        save_path = new.save_path or current.path
+
+        if save_path:
+            return SavedState(
+                file=save_path,
+                video=current.video,
+                stored_video=None,
+                comments=comments
+            )
+
+        return current

@@ -74,6 +74,9 @@ class ImportChangesEvaluator:
     def have_stored_a_video(self) -> bool:
         return bool(self.stored_video)
 
+    def havent_stored_a_video(self) -> bool:
+        return not self.have_stored_a_video()
+
     def have_stored_the_video(self, maybe: Optional[Path]) -> bool:
         return self.stored_video.resolve() == maybe.resolve() if self.stored_video and maybe else False
 
@@ -120,6 +123,13 @@ class ImportEvaluator:
                 )
             elif we.have_stored_the_video(maybe=current.video):
                 return SavedState(
+                    file=the_new.loaded_document,
+                    video=current.video,
+                    stored_video=None,
+                    comments=comments
+                )
+            elif we.havent_stored_a_video():
+                return UnsavedState(
                     file=the_new.loaded_document,
                     video=current.video,
                     stored_video=None,
