@@ -61,7 +61,7 @@ class MainHandler(QMainWindow):
         self.__widget_status_bar = StatusBar()
         self.__player = self.widget_mpv.player
 
-        from mpvqc.manager import QcManager
+        from mpvqc.engine import QcManager
         self.__qc_manager = QcManager(self, self.widget_mpv, self.widget_comments)
         self.__qc_manager_has_changes = False
 
@@ -298,9 +298,9 @@ class MainHandler(QMainWindow):
     def __action_resize_video(self) -> None:
         self.__resize_video()
 
-    def __on_new_video_imported(self, new_video: str):
-        self.__current_video_path = new_video
-        self.__current_video_file = Path(new_video).stem
+    def __on_new_video_imported(self, new_video: Path):
+        self.__current_video_path = str(new_video)
+        self.__current_video_file = new_video.stem
 
         QTimer.singleShot(0, self.__update_window_title)
         QTimer.singleShot(0, self.__resize_video)

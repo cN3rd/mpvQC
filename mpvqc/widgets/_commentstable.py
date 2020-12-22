@@ -19,7 +19,7 @@ from PyQt5.QtCore import pyqtSignal, QItemSelectionModel, QModelIndex, QCoreAppl
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QKeyEvent, QMouseEvent, QWheelEvent, QPalette
 from PyQt5.QtWidgets import QTableView, QAbstractItemView, QApplication
 
-from mpvqc.manager import Comment
+from mpvqc.core import Comment
 from mpvqc.uihandler import MainHandler
 from mpvqc.uiutil import CommentTimeDelegate, CommentTypeDelegate, CommentNoteDelegate, CommentsTableSearcher
 
@@ -177,9 +177,9 @@ class CommentsTable(QTableView):
     def add_comment(self, comment_type: str) -> None:
         _, position_str = self.__widget_mpv.player.position_current()
         comment = Comment(
-            comment_time=position_str,
-            comment_type=comment_type,
-            comment_note=""
+            time=position_str,
+            category=comment_type,
+            comment=""
         )
         self.add_comments((comment,), changes_qc=True, edit=True, resize_ct_column=False)
 
@@ -197,7 +197,7 @@ class CommentsTable(QTableView):
             time = model.item(r, 0).text()
             coty = model.item(r, 1).text()
             note = model.item(r, 2).text()
-            ret_list.append(Comment(comment_time=time, comment_type=coty, comment_note=note))
+            ret_list.append(Comment(time=time, category=coty, comment=note))
         return tuple(ret_list)
 
     def reset_comments_table(self) -> None:
@@ -287,7 +287,7 @@ class CommentsTable(QTableView):
 
         if e.button() == Qt.LeftButton:
             mdi: QModelIndex = self.indexAt(e.pos())
-            if mdi.column() == 0 and self.__mpv_player.has_video():
+            if mdi.column() == 0 and self.__mpv_player.has_video_path():
                 position = self.__model.item(mdi.row(), 0).text()
                 self.__widget_mpv.player.position_jump(position=position)
                 e.accept()
