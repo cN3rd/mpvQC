@@ -27,6 +27,6 @@ class TestNotADocumentError(unittest.TestCase):
     def test_incompatible(self):
         expected = ANY_PATH
         error = NotADocumentError(expected)
-        actual = error.get_incompatible().path
+        actual = error.get_incompatible().file
 
         self.assertEqual(expected.resolve(), actual.resolve())
