@@ -23,13 +23,11 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QFileDialog, QWidget
 
 from mpvqc.gui.filedialogs.impls.fd_dialog import Dialog
-from mpvqc.gui.filedialogs.save_path_suggester import SavePathSuggester
 
 _translate = QtCore.QCoreApplication.translate
 
 
 class SaveDialog(Dialog):
-    PATH_SUGGESTER = SavePathSuggester()
 
     def __init__(self, parent: Optional[QWidget]):
         super().__init__(parent)
