@@ -21,13 +21,12 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QDialog
 
 from mpvqc import get_settings, get_files
-from mpvqc.manager import QcManager
 from mpvqc.ui import Ui_BackupDialog
 
 
 class DialogBackup(QDialog):
 
-    def __init__(self, parent, qc_manager: QcManager):
+    def __init__(self, parent, qc_manager):
         super().__init__(parent)
 
         self.__qc_manager = qc_manager
