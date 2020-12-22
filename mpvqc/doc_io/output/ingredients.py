@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import NamedTuple, Optional, Tuple
 
 from mpvqc import get_settings, get_metadata
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 from mpvqc.doc_io.document import Document
 
 

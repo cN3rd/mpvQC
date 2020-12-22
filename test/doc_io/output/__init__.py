@@ -21,7 +21,7 @@ from typing import NamedTuple
 
 from mpvqc.doc_io.output.ingredients import DocumentIngredients
 from mpvqc.doc_io.output.recipe import DocumentRecipe
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 
 
 class MockedSettings(NamedTuple):

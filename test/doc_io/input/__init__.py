@@ -19,7 +19,7 @@
 from pathlib import Path
 
 from mpvqc.doc_io import Document, Incompatible
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 
 ANY_PATH: Path = Path('mpvQC') / 'ANY' / 'PATH'
 ANY_VIDEO: Path = Path('mpvQC') / 'ANY' / 'VIDEO.MP4'

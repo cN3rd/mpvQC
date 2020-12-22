@@ -20,7 +20,7 @@ import unittest
 from pathlib import Path
 
 from mpvqc.doc_io.output.combiner import DocumentCombiner
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 
 
 class TestDocumentCombiner(unittest.TestCase):

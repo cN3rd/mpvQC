@@ -22,7 +22,7 @@ from unittest.mock import patch
 
 from mpvqc.doc_io import Document
 from mpvqc.doc_io.output.ingredients import DocumentIngredients
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 from test.doc_io.input import ANY_PATH
 from test.doc_io.output import MockedSettings, MockedMetadata
 

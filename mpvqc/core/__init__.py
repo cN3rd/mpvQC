@@ -16,22 +16,4 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from pathlib import Path
-from typing import NamedTuple, Optional, Tuple
-
-from mpvqc.core import Comment
-
-
-class Document(NamedTuple):
-    file: Optional[Path] = None
-    video: Optional[Path] = None
-    comments: Tuple[Comment] = tuple()
-
-
-class Incompatible(NamedTuple):
-    file: Path
-
-
-class DocumentImport(NamedTuple):
-    documents: Tuple[Document]
-    incompatibles: Tuple[Incompatible]
+from mpvqc.core.comment import Comment

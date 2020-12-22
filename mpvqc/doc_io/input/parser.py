@@ -20,7 +20,7 @@ import re
 from pathlib import Path
 from typing import List, Optional, Tuple
 
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 
 
 class DocumentLineParser:

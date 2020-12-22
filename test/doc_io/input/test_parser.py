@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 from mpvqc.doc_io.input.parser import DocumentLineParser
-from mpvqc.engine.comment import Comment
+from mpvqc.core import Comment
 from test.doc_io.input import ANY_VIDEO
 
 
