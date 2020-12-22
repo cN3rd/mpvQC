@@ -64,7 +64,7 @@ class TestVideoDialog(unittest.TestCase):
 
         self.assertFalse(dialog.get_video())
 
-    @patch('mpvqc.gui.filedialogs.impls.fd_open_video.QFileDialog.getOpenFileName', return_value=(['/home/mpvqc/yep.mp4'], ''))
+    @patch('mpvqc.gui.filedialogs.impls.fd_open_video.QFileDialog.getOpenFileName', return_value=('/home/mpvqc/yep.mp4', ''))
     def test_get_video_on_success(self, *_):
         dialog = OpenVideoDialog(parent=None)
         dialog.open(last_directory=None)

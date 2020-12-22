@@ -51,7 +51,7 @@ class Dialogs:
         return subs
 
     @staticmethod
-    def export_document(suggested: Path, parent: Optional[QWidget] = None) -> Path:
+    def export_document(suggested: Path, parent: Optional[QWidget] = None) -> Optional[Path]:
         d = SaveDialog(parent)
         d.open(at=suggested)
         return d.get_location()

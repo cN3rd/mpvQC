@@ -37,7 +37,7 @@ class OpenVideoDialog(Dialog):
         video = self._open_dialog(in_directory=last_directory)
 
         if video:
-            self._video = Path(video[0])
+            self._video = Path(video)
 
     def _open_dialog(self, in_directory: Optional[Path]) -> str:
         caption = _translate("FileInteractionDialogs", "Open Video File")
