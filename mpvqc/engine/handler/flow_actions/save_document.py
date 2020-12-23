@@ -30,6 +30,8 @@ from mpvqc.engine.states import SaveChanges
 class SaveDocumentFlowActions(FlowActions):
 
     def __init__(self, options: Options, current_file: Optional[Path]):
+        self._player = options.player
+
         self._current_file = current_file
         self._current_video = options.player.get_video()
         self._current_comments = options.table.get_all_comments()
@@ -45,6 +47,9 @@ class SaveDocumentFlowActions(FlowActions):
 
     def have_write_path(self) -> bool:
         return bool(self._current_file)
+
+    def pause_video(self) -> None:
+        self._player.pause()
 
     def ask_user_via_dialog_for_write_path(self) -> None:
         self._current_file = self._dialog_save.get_write_path()

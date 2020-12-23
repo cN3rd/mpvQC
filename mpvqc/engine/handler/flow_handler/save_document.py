@@ -36,6 +36,7 @@ class SaveDocumentFlowHandler(FlowHandler):
         we = SaveDocumentFlowActions(options, self._current_file)
 
         if we.dont_have_write_path():
+            we.pause_video()
             we.ask_user_via_dialog_for_write_path()
 
         if we.have_write_path():
