@@ -15,27 +15,3 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-from abc import abstractmethod
-from typing import Tuple
-
-from mpvqc.core import Comment
-
-
-class Table:
-
-    @abstractmethod
-    def has_comments(self) -> bool:
-        pass
-
-    @abstractmethod
-    def add(self, comments: Tuple[Comment]) -> None:
-        pass
-
-    @abstractmethod
-    def get_all_comments(self) -> Tuple[Comment]:
-        pass
-
-    @abstractmethod
-    def clear_comments(self) -> None:
-        pass

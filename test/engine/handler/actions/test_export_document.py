@@ -16,26 +16,23 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from abc import abstractmethod
-from typing import Tuple
+import unittest
+from unittest.mock import patch, Mock
 
-from mpvqc.core import Comment
+from mpvqc.engine.handler.actions import DocumentExporter
+from test.doc_io.input import ANY_DOCUMENT
 
 
-class Table:
+class TestExportDocument(unittest.TestCase):
+    EXPORT = 'mpvqc.doc_io.Exporter.export'
+    BACKUP = 'mpvqc.doc_io.Exporter.backup'
 
-    @abstractmethod
-    def has_comments(self) -> bool:
-        pass
+    @patch(EXPORT)
+    def test_export(self, export_func: Mock):
+        DocumentExporter.export(ANY_DOCUMENT)
+        export_func.assert_called_once()
 
-    @abstractmethod
-    def add(self, comments: Tuple[Comment]) -> None:
-        pass
-
-    @abstractmethod
-    def get_all_comments(self) -> Tuple[Comment]:
-        pass
-
-    @abstractmethod
-    def clear_comments(self) -> None:
-        pass
+    @patch(BACKUP)
+    def test_backup(self, backup_func: Mock):
+        DocumentExporter.backup(ANY_DOCUMENT)
+        backup_func.assert_called_once()

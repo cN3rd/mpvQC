@@ -16,26 +16,18 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from abc import abstractmethod
-from typing import Tuple
+import unittest
 
-from mpvqc.core import Comment
+from mpvqc.engine.handler.actions import TableClearer
+from test.engine import TableTestImpl
 
 
-class Table:
+class TestClearTable(unittest.TestCase):
 
-    @abstractmethod
-    def has_comments(self) -> bool:
-        pass
+    def test_clear_table(self):
+        table = TableTestImpl()
 
-    @abstractmethod
-    def add(self, comments: Tuple[Comment]) -> None:
-        pass
+        clearer = TableClearer(table=table)
+        clearer.clear_table()
 
-    @abstractmethod
-    def get_all_comments(self) -> Tuple[Comment]:
-        pass
-
-    @abstractmethod
-    def clear_comments(self) -> None:
-        pass
+        self.assertTrue(table.clear_comments_called)

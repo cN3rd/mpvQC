@@ -38,7 +38,7 @@ class TableImpl(Table, QObject):
     def has_comments(self) -> bool:
         return bool(self._table.get_all_comments())
 
-    def add(self, comments: Iterable[Comment]):
+    def add(self, comments: Iterable[Comment]) -> None:
         self._table.add_comments(tuple(comments))
 
     def get_all_comments(self) -> Tuple[Comment]:

@@ -16,26 +16,27 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from abc import abstractmethod
-from typing import Tuple
+import unittest
 
 from mpvqc.core import Comment
+from mpvqc.engine.handler.actions import CommentsImporter
+
+from test.engine import TableTestImpl
 
 
-class Table:
+class TestCommentsImporter(unittest.TestCase):
 
-    @abstractmethod
-    def has_comments(self) -> bool:
-        pass
+    def test_import_comments(self):
+        table = TableTestImpl()
 
-    @abstractmethod
-    def add(self, comments: Tuple[Comment]) -> None:
-        pass
+        comments = tuple([
+            Comment(time='00:00:00', category='Test', comment='Test 1'),
+            Comment(time='00:00:00', category='Test-2', comment='Test 2'),
+            Comment(time='00:00:00', category='Test', comment='Test 2'),
+        ])
 
-    @abstractmethod
-    def get_all_comments(self) -> Tuple[Comment]:
-        pass
+        importer = CommentsImporter(table=table)
+        importer.load(comments)
 
-    @abstractmethod
-    def clear_comments(self) -> None:
-        pass
+        self.assertTrue(table.add_called)
+        self.assertEqual(comments, table.add_arguments)

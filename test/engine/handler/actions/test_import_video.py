@@ -16,26 +16,22 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from abc import abstractmethod
-from typing import Tuple
+import unittest
 
-from mpvqc.core import Comment
+from mpvqc.engine.handler.actions import VideoImporter
+from test.doc_io.input import ANY_PATH
+
+from test.engine import PlayerTestImpl
 
 
-class Table:
+class TestVideoImporter(unittest.TestCase):
 
-    @abstractmethod
-    def has_comments(self) -> bool:
-        pass
+    def test_import_subtitle_import(self):
+        player = PlayerTestImpl()
+        video = ANY_PATH
 
-    @abstractmethod
-    def add(self, comments: Tuple[Comment]) -> None:
-        pass
+        importer = VideoImporter(player=player)
+        importer.load(video=video)
 
-    @abstractmethod
-    def get_all_comments(self) -> Tuple[Comment]:
-        pass
-
-    @abstractmethod
-    def clear_comments(self) -> None:
-        pass
+        self.assertTrue(player.open_called)
+        self.assertEqual(video, player._open_video_args)
