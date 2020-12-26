@@ -20,7 +20,9 @@ import unittest
 from unittest.mock import patch
 
 from mpvqc.doc_io import Exporter, Document
-from test.doc_io.output import TestData, MockedSettings, MockedMetadata, MockedFiles
+
+from test import MockedSettings
+from test.doc_io.output import TestData, MockedMetadata, MockedFiles
 
 
 class TestExporter(unittest.TestCase):

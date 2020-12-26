@@ -25,7 +25,7 @@ from mpvqc.engine.interface import Table, Player, App
 
 class AppTestImpl(App):
 
-    def __init__(self, parent: Optional[any]):
+    def __init__(self, parent: Optional[any] = None):
         self._parent = parent
 
         self.parent_called = False

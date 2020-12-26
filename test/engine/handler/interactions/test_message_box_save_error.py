@@ -16,10 +16,21 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import NamedTuple
+import unittest
+from unittest.mock import patch, Mock
+
+from mpvqc.engine.handler.interactions import SaveErrorMessageBox
+from test.engine import AppTestImpl
 
 
-class MockedSettings(NamedTuple):
-    export_write_nickname: bool = True
-    export_write_video_path: bool = True
-    export_nickname: str = "test-nickname"
+class TestMessageBoxIncompatibleDocuments(unittest.TestCase):
+    COULD_NOT_SAVE_DOCUMENT = 'mpvqc.gui.messageboxes.MessageBoxes.could_not_save_document'
+
+    @patch(COULD_NOT_SAVE_DOCUMENT)
+    def test_show(self, mocked_func: Mock) -> None:
+        app = AppTestImpl()
+
+        dialog = SaveErrorMessageBox(app)
+        dialog.show()
+
+        mocked_func.assert_called_once()

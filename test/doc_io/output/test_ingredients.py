@@ -20,11 +20,12 @@ import unittest
 from datetime import datetime
 from unittest.mock import patch
 
+from mpvqc.core import Comment
 from mpvqc.doc_io import Document
 from mpvqc.doc_io.output.ingredients import DocumentIngredients
-from mpvqc.core import Comment
+from test import MockedSettings
 from test.doc_io.input import ANY_PATH
-from test.doc_io.output import MockedSettings, MockedMetadata
+from test.doc_io.output import MockedMetadata
 
 
 class TestIngredients(unittest.TestCase):

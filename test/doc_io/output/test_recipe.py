@@ -20,7 +20,7 @@ import unittest
 from unittest.mock import patch
 
 from mpvqc.doc_io.output.recipe import DocumentRecipe
-from test.doc_io.output import MockedSettings
+from test import MockedSettings
 
 
 class TestRecipe(unittest.TestCase):

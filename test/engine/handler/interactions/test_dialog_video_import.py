@@ -16,10 +16,23 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import NamedTuple
+import unittest
+from unittest.mock import patch
+
+from mpvqc.engine.handler.interactions import VideoImportDialog
+from test.doc_io.input import ANY_VIDEO
+from test.engine import AppTestImpl
 
 
-class MockedSettings(NamedTuple):
-    export_write_nickname: bool = True
-    export_write_video_path: bool = True
-    export_nickname: str = "test-nickname"
+class TestDialogVideoImport(unittest.TestCase):
+    IMPORT_VIDEO = 'mpvqc.gui.filedialogs.Dialogs.import_video'
+    EXPECTED = ANY_VIDEO
+
+    @patch(IMPORT_VIDEO, return_value=EXPECTED)
+    def test_get_video(self, *_) -> None:
+        app = AppTestImpl()
+
+        dialog = VideoImportDialog(app)
+        actual = dialog.get_video()
+
+        self.assertEqual(self.EXPECTED, actual)

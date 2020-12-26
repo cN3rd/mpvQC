@@ -16,10 +16,23 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import NamedTuple
+import unittest
+from unittest.mock import patch
+
+from mpvqc.engine.handler.interactions import SubtitleImportDialog
+from test.doc_io.input import ANY_PATH
+from test.engine import AppTestImpl
 
 
-class MockedSettings(NamedTuple):
-    export_write_nickname: bool = True
-    export_write_video_path: bool = True
-    export_nickname: str = "test-nickname"
+class TestDialogSubtitlesImport(unittest.TestCase):
+    IMPORT_SUBTITLES = 'mpvqc.gui.filedialogs.Dialogs.import_subtitles'
+    EXPECTED = tuple([ANY_PATH, ANY_PATH, ANY_PATH])
+
+    @patch(IMPORT_SUBTITLES, return_value=EXPECTED)
+    def test_get_subtitles(self, *_) -> None:
+        app = AppTestImpl()
+
+        dialog = SubtitleImportDialog(app)
+        actual = dialog.get_subtitles()
+
+        self.assertEqual(self.EXPECTED, actual)

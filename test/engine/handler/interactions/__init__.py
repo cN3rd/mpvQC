@@ -15,11 +15,3 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-from typing import NamedTuple
-
-
-class MockedSettings(NamedTuple):
-    export_write_nickname: bool = True
-    export_write_video_path: bool = True
-    export_nickname: str = "test-nickname"

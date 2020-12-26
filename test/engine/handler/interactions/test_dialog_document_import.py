@@ -16,10 +16,23 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import NamedTuple
+import unittest
+from unittest.mock import patch
+
+from mpvqc.engine.handler.interactions import DocumentImportDialog
+from test.doc_io.input import ANY_PATH
+from test.engine import AppTestImpl
 
 
-class MockedSettings(NamedTuple):
-    export_write_nickname: bool = True
-    export_write_video_path: bool = True
-    export_nickname: str = "test-nickname"
+class TestDialogDocumentImport(unittest.TestCase):
+    IMPORT_DOCUMENTS = 'mpvqc.gui.filedialogs.Dialogs.import_documents'
+    EXPECTED = tuple([ANY_PATH])
+
+    @patch(IMPORT_DOCUMENTS, return_value=EXPECTED)
+    def test_get_documents(self, *_) -> None:
+        app = AppTestImpl()
+
+        dialog = DocumentImportDialog(app)
+        actual = dialog.get_documents()
+
+        self.assertEqual(self.EXPECTED, actual)

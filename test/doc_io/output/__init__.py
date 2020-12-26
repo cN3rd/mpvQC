@@ -24,12 +24,6 @@ from mpvqc.doc_io.output.recipe import DocumentRecipe
 from mpvqc.core import Comment
 
 
-class MockedSettings(NamedTuple):
-    export_write_nickname: bool = True
-    export_write_video_path: bool = True
-    export_nickname: str = "test-nickname"
-
-
 class MockedMetadata(NamedTuple):
     app_name: str = "app-name"
     app_version: str = "0.0.7"
