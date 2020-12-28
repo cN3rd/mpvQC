@@ -78,7 +78,7 @@ class DocumentImportFlowActions(FlowActions):
         self._store_compatible_paths()
 
     def _store_video_found_in_documents(self) -> None:
-        videos = tuple(map(lambda doc: doc.video, self._import.documents))
+        videos = tuple([doc.video for doc in self._import.documents if doc.video])
         self._document_referenced_videos = videos
 
         if videos:

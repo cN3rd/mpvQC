@@ -38,7 +38,7 @@ class AppTestImpl(App):
 class PlayerTestImpl(Player):
 
     def __init__(self, has_video: bool = False, video: Optional[Path] = None):
-        self.has_video = has_video
+        self._has_video = has_video
         self.video = video
 
         self._open_video_args = None
@@ -51,7 +51,7 @@ class PlayerTestImpl(Player):
 
     def has_video(self) -> bool:
         self.has_video_called = True
-        return self.has_video
+        return self._has_video
 
     def get_video(self) -> Optional[Path]:
         self.get_video_called = True
