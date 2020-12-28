@@ -32,7 +32,7 @@ class TestMessageBoxExistingComments(unittest.TestCase):
     EXPECTED_DELETE = ExistingCommentsDuringImportResponse.DELETE_COMMENTS
 
     @patch(EXISTING_COMMENTS_DURING_IMPORT, return_value=EXPECTED_CANCEL)
-    def test_ask(self, mocked_func: Mock) -> None:
+    def test_ask(self, mocked_func: Mock):
         app = AppTestImpl()
 
         dialog = ExistingCommentsMessageBox(app)
@@ -41,7 +41,7 @@ class TestMessageBoxExistingComments(unittest.TestCase):
         mocked_func.assert_called_once()
 
     @patch(EXISTING_COMMENTS_DURING_IMPORT, return_value=EXPECTED_CANCEL)
-    def test_cancel_import(self, *_) -> None:
+    def test_cancel_import(self, *_):
         app = AppTestImpl()
 
         dialog = ExistingCommentsMessageBox(app)
@@ -50,7 +50,7 @@ class TestMessageBoxExistingComments(unittest.TestCase):
         self.assertTrue(dialog.do_we_abort())
 
     @patch(EXISTING_COMMENTS_DURING_IMPORT, return_value=EXPECTED_DELETE)
-    def test_delete_comments(self, *_) -> None:
+    def test_delete_comments(self, *_):
         app = AppTestImpl()
 
         dialog = ExistingCommentsMessageBox(app)
@@ -59,7 +59,7 @@ class TestMessageBoxExistingComments(unittest.TestCase):
         self.assertTrue(dialog.do_we_clear_table())
 
     @patch(EXISTING_COMMENTS_DURING_IMPORT, return_value=EXPECTED_KEEP)
-    def test_keep_comments(self, *_) -> None:
+    def test_keep_comments(self, *_):
         app = AppTestImpl()
 
         dialog = ExistingCommentsMessageBox(app)

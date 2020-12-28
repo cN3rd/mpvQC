@@ -31,7 +31,7 @@ class TestDialogDocumentImport(unittest.TestCase):
 
     @patch(GET_SETTINGS, return_value=MockedSettings())
     @patch(EXPORT_DOCUMENT, return_value=ANY_PATH)
-    def test_set_any_video(self, mocked_export_document: Mock, *_) -> None:
+    def test_set_any_video(self, mocked_export_document: Mock, *_):
         app = AppTestImpl()
         dialog = SaveDialog(app)
         dialog.set_video(ANY_VIDEO)
@@ -45,7 +45,7 @@ class TestDialogDocumentImport(unittest.TestCase):
 
     @patch(GET_SETTINGS, return_value=MockedSettings())
     @patch(EXPORT_DOCUMENT, return_value=ANY_PATH)
-    def test_set_no_video(self, mocked_export_document: Mock, *_) -> None:
+    def test_set_no_video(self, mocked_export_document: Mock, *_):
         app = AppTestImpl()
         dialog = SaveDialog(app)
         dialog.get_write_path()
@@ -58,7 +58,7 @@ class TestDialogDocumentImport(unittest.TestCase):
 
     @patch(GET_SETTINGS, return_value=MockedSettings())
     @patch(EXPORT_DOCUMENT, return_value=ANY_PATH)
-    def test_get_write_path(self, *_) -> None:
+    def test_get_write_path(self, *_):
         app = AppTestImpl()
 
         dialog = SaveDialog(app)

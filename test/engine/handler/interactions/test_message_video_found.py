@@ -31,7 +31,7 @@ class TestMessageBoxNewDocuments(unittest.TestCase):
     EXPECTED_OPEN = ValidVideoFileFoundResponse.OPEN
 
     @patch(VALID_VIDEO_FOUND, return_value=EXPECTED_NOT_OPEN)
-    def test_ask(self, mocked_func: Mock) -> None:
+    def test_ask(self, mocked_func: Mock):
         app = AppTestImpl()
 
         dialog = VideoFoundMessageBox(app)
@@ -40,7 +40,7 @@ class TestMessageBoxNewDocuments(unittest.TestCase):
         mocked_func.assert_called_once()
 
     @patch(VALID_VIDEO_FOUND, return_value=EXPECTED_OPEN)
-    def test_open(self, *_) -> None:
+    def test_open(self, *_):
         app = AppTestImpl()
 
         dialog = VideoFoundMessageBox(app)
@@ -49,7 +49,7 @@ class TestMessageBoxNewDocuments(unittest.TestCase):
         self.assertTrue(dialog.do_we_open())
 
     @patch(VALID_VIDEO_FOUND, return_value=EXPECTED_NOT_OPEN)
-    def test_not_open(self, *_) -> None:
+    def test_not_open(self, *_):
         app = AppTestImpl()
 
         dialog = VideoFoundMessageBox(app)

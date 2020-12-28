@@ -30,7 +30,7 @@ class TestMessageBoxIncompatibleDocuments(unittest.TestCase):
     INCOMPATIBLES = tuple([ANY_PATH])
 
     @patch(INVALID_DOCUMENTS_DURING_IMPORT)
-    def test_show(self, mocked_func: Mock) -> None:
+    def test_show(self, mocked_func: Mock):
         app = AppTestImpl()
 
         dialog = IncompatibleDocumentsMessageBox(app)
@@ -39,7 +39,7 @@ class TestMessageBoxIncompatibleDocuments(unittest.TestCase):
         mocked_func.assert_called_once()
 
     @patch(INVALID_DOCUMENTS_DURING_IMPORT)
-    def test_set_incompatibles(self, mocked_func: Mock) -> None:
+    def test_set_incompatibles(self, mocked_func: Mock):
         app = AppTestImpl()
 
         dialog = IncompatibleDocumentsMessageBox(app)

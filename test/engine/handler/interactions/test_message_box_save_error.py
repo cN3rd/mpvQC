@@ -27,7 +27,7 @@ class TestMessageBoxIncompatibleDocuments(unittest.TestCase):
     COULD_NOT_SAVE_DOCUMENT = 'mpvqc.gui.messageboxes.MessageBoxes.could_not_save_document'
 
     @patch(COULD_NOT_SAVE_DOCUMENT)
-    def test_show(self, mocked_func: Mock) -> None:
+    def test_show(self, mocked_func: Mock):
         app = AppTestImpl()
 
         dialog = SaveErrorMessageBox(app)

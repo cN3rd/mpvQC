@@ -29,7 +29,7 @@ class TestDialogVideoImport(unittest.TestCase):
     EXPECTED = ANY_VIDEO
 
     @patch(IMPORT_VIDEO, return_value=EXPECTED)
-    def test_get_video(self, *_) -> None:
+    def test_get_video(self, *_):
         app = AppTestImpl()
 
         dialog = VideoImportDialog(app)

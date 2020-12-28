@@ -29,7 +29,7 @@ class TestDialogDocumentImport(unittest.TestCase):
     EXPECTED = tuple([ANY_PATH])
 
     @patch(IMPORT_DOCUMENTS, return_value=EXPECTED)
-    def test_get_documents(self, *_) -> None:
+    def test_get_documents(self, *_):
         app = AppTestImpl()
 
         dialog = DocumentImportDialog(app)

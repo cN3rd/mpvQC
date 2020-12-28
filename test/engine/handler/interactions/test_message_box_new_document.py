@@ -31,7 +31,7 @@ class TestMessageBoxNewDocuments(unittest.TestCase):
     EXPECTED_CANCEL = UnsavedChangesCreateNewDocumentResponse.CANCEL
 
     @patch(UNSAVED_CHANGES_CREATE_NEW_DOCUMENT, return_value=EXPECTED_CREATE_NEW)
-    def test_ask(self, mocked_func: Mock) -> None:
+    def test_ask(self, mocked_func: Mock):
         app = AppTestImpl()
 
         dialog = NewDocumentMessageBox(app)
@@ -40,7 +40,7 @@ class TestMessageBoxNewDocuments(unittest.TestCase):
         mocked_func.assert_called_once()
 
     @patch(UNSAVED_CHANGES_CREATE_NEW_DOCUMENT, return_value=EXPECTED_CANCEL)
-    def test_cancel(self, *_) -> None:
+    def test_cancel(self, *_):
         app = AppTestImpl()
 
         dialog = NewDocumentMessageBox(app)
@@ -49,7 +49,7 @@ class TestMessageBoxNewDocuments(unittest.TestCase):
         self.assertFalse(dialog.do_we_create_new())
 
     @patch(UNSAVED_CHANGES_CREATE_NEW_DOCUMENT, return_value=EXPECTED_CREATE_NEW)
-    def test_create_new(self, *_) -> None:
+    def test_create_new(self, *_):
         app = AppTestImpl()
 
         dialog = NewDocumentMessageBox(app)

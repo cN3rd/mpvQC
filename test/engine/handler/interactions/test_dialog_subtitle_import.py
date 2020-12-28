@@ -29,7 +29,7 @@ class TestDialogSubtitlesImport(unittest.TestCase):
     EXPECTED = tuple([ANY_PATH, ANY_PATH, ANY_PATH])
 
     @patch(IMPORT_SUBTITLES, return_value=EXPECTED)
-    def test_get_subtitles(self, *_) -> None:
+    def test_get_subtitles(self, *_):
         app = AppTestImpl()
 
         dialog = SubtitleImportDialog(app)

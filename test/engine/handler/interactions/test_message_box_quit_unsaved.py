@@ -31,7 +31,7 @@ class TestMessageBoxQuitUnsaved(unittest.TestCase):
     EXPECTED_CANCEL = UnsavedChangesQuitResponse.CANCEL
 
     @patch(UNSAVED_CHANGES_QUIT, return_value=EXPECTED_CANCEL)
-    def test_cancel(self, *_) -> None:
+    def test_cancel(self, *_):
         app = AppTestImpl()
 
         dialog = QuitUnsavedMessageBox(app)
@@ -39,7 +39,7 @@ class TestMessageBoxQuitUnsaved(unittest.TestCase):
         self.assertFalse(dialog.do_we_quit())
 
     @patch(UNSAVED_CHANGES_QUIT, return_value=EXPECTED_QUIT)
-    def test_quit(self, *_) -> None:
+    def test_quit(self, *_):
         app = AppTestImpl()
 
         dialog = QuitUnsavedMessageBox(app)
