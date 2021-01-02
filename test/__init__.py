@@ -23,3 +23,4 @@ class MockedSettings(NamedTuple):
     export_write_nickname: bool = True
     export_write_video_path: bool = True
     export_nickname: str = "test-nickname"
+    backup_interval: int = 90

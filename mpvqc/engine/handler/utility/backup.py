@@ -43,10 +43,10 @@ class Backup:
 
         if interval and interval >= 15:
             self._timer = QTimer()
-            self._timer.timeout.connect(self._backup)
+            self._timer.timeout.connect(self.backup)
             self._timer.start(interval * 1000)
 
-    def _backup(self) -> bool:
+    def backup(self) -> bool:
         document = Document(file=None, video=self._player.get_video(), comments=self._table.get_all_comments())
         DocumentExporter.backup(document)
         return self._continue_until_stopped_manually
