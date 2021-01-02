@@ -20,20 +20,13 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import DocumentImportFlowHandler
-from mpvqc.engine.interface import Options
 from test.doc_io.input import ANY_PATHS, ANY_VIDEO, ANY_PATH
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     DOC_FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.import_document.DocumentImportFlowActions'
     VID_FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.import_document.VideoImportFlowActions'
-
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
 
     def test_unchanged(self):
         handler = DocumentImportFlowHandler()
@@ -58,7 +51,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.ask_via_dialog_for_paths')
     def test_document_import_ask_for_paths(self, mocked_ask: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -66,7 +59,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.import_paths')
     def test_document_import_import_paths(self, mocked_import: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_import.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -75,7 +68,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.have_documents_imported')
     def test_document_import_no_paths_given(self, mocked_question: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_question.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -88,7 +81,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.ask_via_message_box_what_to_do_with_comments')
     def test_document_import_comments_question_with_comments(self, mocked_question: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_question.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -99,7 +92,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.ask_via_message_box_what_to_do_with_comments')
     def test_document_import_comments_question_without_comments(self, mocked_question: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_question.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -112,7 +105,7 @@ class Test(unittest.TestCase):
     def test_document_import_has_abort_called(self, *_):
         handler = DocumentImportFlowHandler()
         self.assertFalse(handler.has_abort_called())
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertTrue(handler.has_abort_called())
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -126,7 +119,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.clear_all_comments', return_value=True)
     def test_document_import_clear_all_comments(self, mocked_clear: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_clear.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -136,7 +129,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.load_comments')
     def test_document_import_load_comments(self, mocked_load: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -147,7 +140,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOC_FLOW_ACTIONS}.show_via_message_box_all_incompatible_documents')
     def test_document_import_show_incompatibles(self, mocked_show: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_show.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -164,7 +157,7 @@ class Test(unittest.TestCase):
     @patch(f'{VID_FLOW_ACTIONS}.load_video')
     def test_video_import_successful(self, mocked_load_video: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load_video.assert_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -178,7 +171,7 @@ class Test(unittest.TestCase):
     @patch(VID_FLOW_ACTIONS)
     def test_video_import_skip_because_abort_called(self, mocked_constructor: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_constructor.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -190,7 +183,7 @@ class Test(unittest.TestCase):
     @patch(VID_FLOW_ACTIONS)
     def test_video_import_skip_because_no_video_found(self, mocked_constructor: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_constructor.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -202,7 +195,7 @@ class Test(unittest.TestCase):
     @patch(VID_FLOW_ACTIONS)
     def test_video_import_skip_because_multiple_documents(self, mocked_constructor: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_constructor.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -215,7 +208,7 @@ class Test(unittest.TestCase):
     @patch(VID_FLOW_ACTIONS)
     def test_video_import_skip_because_skip_command(self, mocked_constructor: Mock, *_):
         handler = DocumentImportFlowHandler(load_linked_video=False)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_constructor.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -229,7 +222,7 @@ class Test(unittest.TestCase):
     @patch(f'{VID_FLOW_ACTIONS}.load_video')
     def test_video_import_skip_because_video_does_not_exist(self, mocked_load_video: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load_video.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -244,7 +237,7 @@ class Test(unittest.TestCase):
     @patch(f'{VID_FLOW_ACTIONS}.load_video')
     def test_video_import_skip_because_video_is_playing_already(self, mocked_load_video: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load_video.assert_not_called()
 
     @patch(f'{DOC_FLOW_ACTIONS}.dont_have_any_paths', return_value=False)
@@ -261,5 +254,5 @@ class Test(unittest.TestCase):
     @patch(f'{VID_FLOW_ACTIONS}.load_video')
     def test_video_import_skip_because_user_doesnt_want_to_open(self, mocked_load_video: Mock, *_):
         handler = DocumentImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load_video.assert_not_called()

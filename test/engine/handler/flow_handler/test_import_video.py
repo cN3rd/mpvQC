@@ -20,19 +20,12 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import VideoImportFlowHandler
-from mpvqc.engine.interface import Options
 from test.doc_io.input import ANY_VIDEO
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.import_video.VideoImportFlowActions'
-
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
 
     def test_unchanged(self):
         handler = VideoImportFlowHandler()
@@ -57,14 +50,14 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.ask_via_dialog_for_video')
     def test_ask_for_video_true(self, mocked_ask: Mock, *_):
         handler = VideoImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_a_video', return_value=False)
     @patch(f'{FLOW_ACTIONS}.ask_via_dialog_for_video')
     def test_ask_for_video_false(self, mocked_ask: Mock, *_):
         handler = VideoImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_a_video', return_value=False)
@@ -73,7 +66,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.load_video')
     def test_load_video_true(self, mocked_load: Mock, *_):
         handler = VideoImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_a_video', return_value=False)
@@ -82,7 +75,7 @@ class Test(unittest.TestCase):
     def test_load_video_changes_registered(self, *_):
         handler = VideoImportFlowHandler(video=ANY_VIDEO)
         self.assertIsNone(handler.get_changes().loaded_video)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertIsNotNone(handler.get_changes().loaded_video)
 
     @patch(f'{FLOW_ACTIONS}.dont_have_a_video', return_value=False)
@@ -90,7 +83,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.load_video')
     def test_load_video_false_because_dont_have_video(self, mocked_load: Mock, *_):
         handler = VideoImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_a_video', return_value=False)
@@ -99,5 +92,5 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.load_video')
     def test_load_video_false_because_already_playing(self, mocked_load: Mock, *_):
         handler = VideoImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load.assert_not_called()

@@ -20,10 +20,9 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import CombinedImportFlowHandler
-from mpvqc.engine.interface import Options
 from mpvqc.engine.states import ImportChanges
 from test.doc_io.input import ANY_PATHS, ANY_VIDEO
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 IMPORT_CHANGES_DOCUMENT = ImportChanges()
 IMPORT_CHANGES_DOCUMENT.loaded_documents = ANY_PATHS
@@ -37,12 +36,6 @@ class Test(unittest.TestCase):
     DOCUMENT_HANDLER = 'mpvqc.engine.handler.flow_handler.import_combined.DocumentImportFlowHandler'
     SUBTITLE_HANDLER = 'mpvqc.engine.handler.flow_handler.import_combined.SubtitleImportFlowHandler'
     VIDEO_HANDLER = 'mpvqc.engine.handler.flow_handler.import_combined.VideoImportFlowHandler'
-
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
 
     def test_unchanged(self):
         handler = CombinedImportFlowHandler()
@@ -61,7 +54,7 @@ class Test(unittest.TestCase):
     @patch(VIDEO_HANDLER)
     def test_abort(self, mocked_video_handler: Mock, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_video_handler.assert_not_called()
 
     def test_load_video_from_document_true(self):
@@ -76,21 +69,21 @@ class Test(unittest.TestCase):
     @patch(f'{DOCUMENT_HANDLER}.handle_flow_with')
     def test_import_only_when_paths_given_for_documents(self, mocked_handle: Mock, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_handle.assert_not_called()
 
     @patch(f'{VIDEO_HANDLER}.has_video_path', return_value=False)
     @patch(f'{VIDEO_HANDLER}.handle_flow_with')
     def test_import_only_when_paths_given_for_videos(self, mocked_handle: Mock, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_handle.assert_not_called()
 
     @patch(f'{SUBTITLE_HANDLER}.has_subtitle_paths', return_value=False)
     @patch(f'{SUBTITLE_HANDLER}.handle_flow_with')
     def test_import_only_when_paths_given_for_subtitles(self, mocked_handle: Mock, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_handle.assert_not_called()
 
     @patch(f'{DOCUMENT_HANDLER}.has_document_paths', return_value=True)
@@ -99,7 +92,7 @@ class Test(unittest.TestCase):
     @patch(f'{DOCUMENT_HANDLER}.get_changes', return_value=IMPORT_CHANGES_DOCUMENT)
     def test_document_import(self, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         changes = handler.get_changes()
         self.assertTrue(changes.loaded_documents)
 
@@ -108,7 +101,7 @@ class Test(unittest.TestCase):
     @patch(f'{VIDEO_HANDLER}.get_changes', return_value=IMPORT_CHANGES_VIDEO)
     def test_video_import(self, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         changes = handler.get_changes()
         self.assertTrue(changes.loaded_video)
 
@@ -121,7 +114,7 @@ class Test(unittest.TestCase):
     @patch(f'{VIDEO_HANDLER}.get_changes', return_value=IMPORT_CHANGES_VIDEO)
     def test_document_and_video_import(self, *_):
         handler = CombinedImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         changes = handler.get_changes()
         self.assertTrue(changes.loaded_documents)
         self.assertTrue(changes.loaded_video)

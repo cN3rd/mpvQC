@@ -20,39 +20,32 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_actions import SubtitleImportFlowActions
-from mpvqc.engine.interface import Options
 from test.doc_io.input import ANY_PATHS
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class TestSubtitleImportFlowActions(unittest.TestCase):
     GET_SUBTITLES = 'mpvqc.engine.handler.flow_actions.import_subtitles.SubtitleImportDialog.get_subtitles'
     LOAD = 'mpvqc.engine.handler.flow_actions.import_subtitles.SubtitleImporter.load'
 
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
-
     def test_dont_have_subtitles(self):
-        we = SubtitleImportFlowActions(self.OPTIONS, tuple())
+        we = SubtitleImportFlowActions(DEFAULT_OPTIONS, tuple())
         self.assertFalse(we.have_subtitles())
         self.assertTrue(we.dont_have_subtitles())
 
     def test_have_subtitles(self):
-        we = SubtitleImportFlowActions(self.OPTIONS, ANY_PATHS)
+        we = SubtitleImportFlowActions(DEFAULT_OPTIONS, ANY_PATHS)
         self.assertTrue(we.have_subtitles())
         self.assertFalse(we.dont_have_subtitles())
 
     @patch(GET_SUBTITLES, return_value=ANY_PATHS)
     def test_ask_for_subtitles(self, *_):
-        we = SubtitleImportFlowActions(self.OPTIONS, tuple())
+        we = SubtitleImportFlowActions(DEFAULT_OPTIONS, tuple())
         we.ask_via_dialog_for_subtitles()
         self.assertTrue(we.have_subtitles())
 
     @patch(LOAD)
     def test_load_subtitle(self, mocked_load: Mock):
-        we = SubtitleImportFlowActions(self.OPTIONS, tuple())
+        we = SubtitleImportFlowActions(DEFAULT_OPTIONS, tuple())
         we.load_subtitles()
         mocked_load.assert_called()

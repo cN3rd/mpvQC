@@ -20,26 +20,19 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import SaveDocumentFlowHandler
-from mpvqc.engine.interface import Options
 from test.doc_io.input import ANY_PATH
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.save_document.SaveDocumentFlowActions'
-
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=True)
     @patch(f'{FLOW_ACTIONS}.have_write_path', return_value=False)
     @patch(f'{FLOW_ACTIONS}.ask_user_via_dialog_for_write_path')
     def test_ask_for_write_path_true(self, mocked_ask: Mock, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=True)
@@ -48,7 +41,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.pause_video')
     def test_ask_for_write_path_true_pause_called(self, mocked_pause: Mock, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_pause.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -56,7 +49,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.ask_user_via_dialog_for_write_path')
     def test_ask_for_write_path_false(self, mocked_ask: Mock, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -65,7 +58,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.pause_video')
     def test_ask_for_write_path_false_pause_not_called(self, mocked_pause: Mock, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_pause.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -73,7 +66,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.write_document')
     def test_write_document_true(self, mocked_write: Mock, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_write.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -82,7 +75,7 @@ class Test(unittest.TestCase):
     def test_write_document_true_changes_registered(self, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
         self.assertIsNone(handler.get_changes().save_path)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertIsNotNone(handler.get_changes().save_path)
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -90,7 +83,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.write_document')
     def test_write_document_false(self, mocked_write: Mock, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_write.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -98,7 +91,7 @@ class Test(unittest.TestCase):
     def test_write_document_false_changes_not_registered(self, *_):
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
         self.assertIsNone(handler.get_changes().save_path)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertIsNone(handler.get_changes().save_path)
 
     @patch(f'{FLOW_ACTIONS}.dont_have_write_path', return_value=False)
@@ -112,5 +105,5 @@ class Test(unittest.TestCase):
         mocked_write.side_effect = not_this_time
 
         handler = SaveDocumentFlowHandler(current_file=ANY_PATH)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_error.assert_called()

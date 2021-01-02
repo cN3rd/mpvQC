@@ -20,29 +20,22 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import QuitQuestionFlowHandler
-from mpvqc.engine.interface import Options
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.quit.QuitFlowQuestion'
 
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
-
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=True)
     @patch(f'{FLOW_ACTIONS}.ask_via_message_box_to_quit')
     def test_ask_to_quit_true(self, mocked_ask: Mock, *_):
         handler = QuitQuestionFlowHandler(have_unsaved_changes=True)
-        handler.ask_with(self.OPTIONS)
+        handler.ask_with(DEFAULT_OPTIONS)
         mocked_ask.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=False)
     @patch(f'{FLOW_ACTIONS}.ask_via_message_box_to_quit')
     def test_ask_to_quit_false(self, mocked_ask: Mock, *_):
         handler = QuitQuestionFlowHandler(have_unsaved_changes=True)
-        handler.ask_with(self.OPTIONS)
+        handler.ask_with(DEFAULT_OPTIONS)
         mocked_ask.assert_not_called()

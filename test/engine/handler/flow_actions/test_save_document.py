@@ -22,7 +22,7 @@ from unittest.mock import patch, Mock
 from mpvqc.engine.handler.flow_actions import SaveDocumentFlowActions
 from mpvqc.engine.interface import Options
 from test.doc_io.input import ANY_PATH
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS, PlayerTestImpl, AppTestImpl, TableTestImpl
 
 
 class TestSubtitleImportFlowActions(unittest.TestCase):
@@ -31,19 +31,13 @@ class TestSubtitleImportFlowActions(unittest.TestCase):
 
     WRITE = 'mpvqc.engine.handler.flow_actions.save_document.DocumentExporter.export'
 
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
-
     def test_dont_have_write_path(self):
-        we = SaveDocumentFlowActions(self.OPTIONS, current_file=None)
+        we = SaveDocumentFlowActions(DEFAULT_OPTIONS, current_file=None)
         self.assertFalse(we.have_write_path())
         self.assertTrue(we.dont_have_write_path())
 
     def test_have_write_path(self):
-        we = SaveDocumentFlowActions(self.OPTIONS, current_file=ANY_PATH)
+        we = SaveDocumentFlowActions(DEFAULT_OPTIONS, current_file=ANY_PATH)
         self.assertTrue(we.have_write_path())
         self.assertFalse(we.dont_have_write_path())
 
@@ -58,26 +52,26 @@ class TestSubtitleImportFlowActions(unittest.TestCase):
 
     @patch(DIALOG_ASK)
     def test_ask_for_write_path(self, mocked_ask: Mock):
-        we = SaveDocumentFlowActions(self.OPTIONS, current_file=None)
+        we = SaveDocumentFlowActions(DEFAULT_OPTIONS, current_file=None)
         we.ask_user_via_dialog_for_write_path()
         mocked_ask.assert_called()
         self.assertTrue(we.have_write_path())
 
     @patch(WRITE)
     def test_write_called(self, mocked_write: Mock):
-        we = SaveDocumentFlowActions(self.OPTIONS, current_file=None)
+        we = SaveDocumentFlowActions(DEFAULT_OPTIONS, current_file=None)
         we.write_document()
         mocked_write.assert_called()
 
     @patch(WRITE)
     def test_write_changes_registered(self, *_):
-        we = SaveDocumentFlowActions(self.OPTIONS, current_file=ANY_PATH)
+        we = SaveDocumentFlowActions(DEFAULT_OPTIONS, current_file=ANY_PATH)
         self.assertFalse(we.get_changes().save_path)
         we.write_document()
         self.assertTrue(we.get_changes().save_path)
 
     @patch(MB_SHOW_ERROR)
     def test_show_error(self, mocked_error: Mock):
-        we = SaveDocumentFlowActions(self.OPTIONS, current_file=None)
+        we = SaveDocumentFlowActions(DEFAULT_OPTIONS, current_file=None)
         we.show_error()
         mocked_error.assert_called()

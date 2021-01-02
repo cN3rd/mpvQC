@@ -20,27 +20,20 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import ModifyCommentsFlowHandler
-from mpvqc.engine.interface import Options
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.modify_comments.ModifyCommentsFlowActions'
 
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
-
     @patch(f'{FLOW_ACTIONS}.modified_comments')
     def test_modify(self, mocked_modify: Mock):
         handler = ModifyCommentsFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_modify.assert_called()
 
     def test_modify_changes_registered(self):
         handler = ModifyCommentsFlowHandler()
         self.assertFalse(handler.get_changes().changed_comments)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertTrue(handler.get_changes().changed_comments)

@@ -20,19 +20,12 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import SubtitleImportFlowHandler
-from mpvqc.engine.interface import Options
 from test.doc_io.input import ANY_PATHS
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.import_subtitles.SubtitleImportFlowActions'
-
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
 
     def test_unchanged(self):
         handler = SubtitleImportFlowHandler()
@@ -57,14 +50,14 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.ask_via_dialog_for_subtitles')
     def test_ask_for_subtitles_true(self, mocked_ask: Mock, *_):
         handler = SubtitleImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_subtitles', return_value=False)
     @patch(f'{FLOW_ACTIONS}.ask_via_dialog_for_subtitles')
     def test_ask_for_subtitles_false(self, mocked_ask: Mock, *_):
         handler = SubtitleImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_subtitles', return_value=False)
@@ -72,7 +65,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.load_subtitles')
     def test_load_subtitles_true(self, mocked_load: Mock, *_):
         handler = SubtitleImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.dont_have_subtitles', return_value=False)
@@ -80,5 +73,5 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.load_subtitles')
     def test_load_subtitles_false(self, mocked_load: Mock, *_):
         handler = SubtitleImportFlowHandler()
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_load.assert_not_called()

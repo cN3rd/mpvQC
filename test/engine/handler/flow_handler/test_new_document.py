@@ -20,18 +20,11 @@ import unittest
 from unittest.mock import patch, Mock
 
 from mpvqc.engine.handler.flow_handler import NewDocumentFlowHandler
-from mpvqc.engine.interface import Options
-from test.engine import PlayerTestImpl, AppTestImpl, TableTestImpl
+from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
     FLOW_ACTIONS = 'mpvqc.engine.handler.flow_handler.new_document.NewDocumentFlowActions'
-
-    OPTIONS = Options(
-        AppTestImpl(),
-        PlayerTestImpl(),
-        TableTestImpl()
-    )
 
     def test_unchanged(self):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
@@ -43,14 +36,14 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.ask_via_message_box_to_create_new_document')
     def test_ask_to_create_new_true(self, mocked_ask: Mock, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=False)
     @patch(f'{FLOW_ACTIONS}.ask_via_message_box_to_create_new_document')
     def test_ask_to_create_new_false(self, mocked_ask: Mock, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_ask.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=True)
@@ -59,7 +52,7 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.clear_comments')
     def test_user_wants_to_create_new_true(self, mocked_clear: Mock, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_clear.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=True)
@@ -68,7 +61,7 @@ class Test(unittest.TestCase):
     def test_user_wants_to_create_new_true_changes_registered(self, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
         self.assertFalse(handler.get_changes().cleared_the_table)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertTrue(handler.get_changes().cleared_the_table)
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=True)
@@ -77,19 +70,19 @@ class Test(unittest.TestCase):
     @patch(f'{FLOW_ACTIONS}.clear_comments')
     def test_user_wants_to_create_new_false(self, mocked_clear: Mock, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_clear.assert_not_called()
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=False)
     @patch(f'{FLOW_ACTIONS}.clear_comments')
     def test_dont_have_unsaved_changes(self, mocked_clear: Mock, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         mocked_clear.assert_called()
 
     @patch(f'{FLOW_ACTIONS}.have_unsaved_changes', return_value=False)
     def test_dont_have_unsaved_changes_changes_registered(self, *_):
         handler = NewDocumentFlowHandler(have_unsaved_changes=False)
         self.assertFalse(handler.get_changes().cleared_the_table)
-        handler.handle_flow_with(self.OPTIONS)
+        handler.handle_flow_with(DEFAULT_OPTIONS)
         self.assertTrue(handler.get_changes().cleared_the_table)
