@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Tuple, Optional
 
 from mpvqc.core import Comment
-from mpvqc.engine.interface import Table, Player, App
+from mpvqc.engine.interface import Table, Player, App, Options
 
 
 class AppTestImpl(App):
@@ -96,3 +96,10 @@ class TableTestImpl(Table):
     def clear_comments(self) -> None:
         self.clear_comments_called = True
         self._comments.clear()
+
+
+DEFAULT_OPTIONS = Options(
+    AppTestImpl(),
+    PlayerTestImpl(),
+    TableTestImpl()
+)

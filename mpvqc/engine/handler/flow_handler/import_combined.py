@@ -43,7 +43,7 @@ class CombinedImportFlowHandler(FlowHandler):
 
     def handle_flow_with(self, options: Options) -> None:
         importer = DocumentImportFlowHandler(self._document_paths,
-                                             load_linked_video=self._only_if_user_has_not_supplied_a_video())
+                                             load_linked_video=self.only_if_user_has_not_supplied_a_video())
         if importer.has_document_paths():
             importer.handle_flow_with(options)
 
@@ -62,7 +62,7 @@ class CombinedImportFlowHandler(FlowHandler):
         if importer.has_subtitle_paths():
             importer.handle_flow_with(options)
 
-    def _only_if_user_has_not_supplied_a_video(self) -> bool:
+    def only_if_user_has_not_supplied_a_video(self) -> bool:
         return not self._user_has_supplied_a_video()
 
     def _user_has_supplied_a_video(self) -> bool:
