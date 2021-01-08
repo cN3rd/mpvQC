@@ -22,7 +22,7 @@ from typing import List
 from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow
 
-from mpvqc.engine.handler.utility.backup import Backup
+from mpvqc.engine.handler.backup import Backup
 from mpvqc.engine.interface import AppImpl, PlayerImpl, TableImpl, Options
 from mpvqc.widgets import CommentsTable, MpvWidget
 

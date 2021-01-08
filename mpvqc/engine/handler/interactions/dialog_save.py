@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Optional
 
 from mpvqc import get_settings
-from mpvqc.engine.handler.utility import SavePathSuggester
+from mpvqc.engine.handler.save_path_suggester import SavePathSuggester
 from mpvqc.engine.interface import App
 from mpvqc.gui.filedialogs import Dialogs
 
@@ -41,4 +41,3 @@ class SaveDialog:
     def _get_suggested_file_path(self) -> Path:
         s = get_settings()
         return SavePathSuggester.suggest(for_video=self._video, and_writer=s.export_nickname)
-

@@ -1,6 +1,6 @@
 #  mpvQC
 #
-#  Copyright (C) 2020 mpvQC developers
+#  Copyright (C) 2021 mpvQC developers
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as published by
@@ -16,5 +16,4 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from mpvqc.engine.handler.utility.save_path_suggester import SavePathSuggester
-from mpvqc.engine.handler.utility.funcs import flat_map
+from mpvqc.core.utility.funcs import flat_map

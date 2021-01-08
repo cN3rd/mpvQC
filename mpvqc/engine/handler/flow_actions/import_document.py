@@ -20,12 +20,12 @@ from pathlib import Path
 from typing import Tuple, Iterator
 
 from mpvqc.core import Comment
+from mpvqc.core.utility import flat_map
 from mpvqc.doc_io import Importer, DocumentImport
 from mpvqc.engine.handler import FlowActions
 from mpvqc.engine.handler.actions import TableClearer, CommentsImporter
 from mpvqc.engine.handler.interactions import DocumentImportDialog, ExistingCommentsMessageBox, \
     IncompatibleDocumentsMessageBox
-from mpvqc.engine.handler.utility import flat_map
 from mpvqc.engine.interface import Options
 from mpvqc.engine.states import ImportChanges
 

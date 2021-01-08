@@ -19,13 +19,13 @@
 import unittest
 from unittest.mock import patch, Mock
 
-from mpvqc.engine.handler.utility.backup import Backup
+from mpvqc.engine.handler.backup import Backup
 from test import MockedSettings
 from test.engine import DEFAULT_OPTIONS
 
 
 class Test(unittest.TestCase):
-    MODULE = 'mpvqc.engine.handler.utility.backup'
+    MODULE = 'mpvqc.engine.handler.backup'
 
     GET_SETTINGS = f'{MODULE}.get_settings'
 
