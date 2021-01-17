@@ -131,8 +131,8 @@ class ImportEvaluator:
             elif we.havent_stored_a_video():
                 return UnsavedState(
                     file=the_new.loaded_document,
-                    video=current.video,
-                    stored_video=None,
+                    video=video,
+                    stored_video=stored_video,
                     comments=comments
                 )
         elif we.have_loaded_more_than_one_document():
