@@ -62,7 +62,7 @@ class MainHandler(QMainWindow):
         self.__widget_status_bar = StatusBar()
         self.__player = self.widget_mpv.player
 
-        from mpvqc.engine import QcManager
+        from mpvqc.core.engine import QcManager
         self.__qc_manager = QcManager(self, self.widget_mpv, self.widget_comments)
         self.__qc_manager_has_changes = False
 
