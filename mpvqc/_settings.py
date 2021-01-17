@@ -57,6 +57,15 @@ class _Str(_Storable):
     pass
 
 
+class _Path(_Str):
+
+    def get(self) -> Path:
+        return Path(super(_Path, self).get())
+
+    def set(self, value: any) -> None:
+        super(_Path, self).set(str(value))
+
+
 class _Int(_Storable):
 
     def get(self) -> int:
@@ -176,9 +185,9 @@ class Settings:
         qs = QSettings(f.file_settings, QSettings.IniFormat)
         self.__qs = qs
 
-        self.__s_import_last_dir_document = _Str("import-last-dir-documents", qs, default_value="")
-        self.__s_import_last_dir_video = _Str("import-last-dir-video", qs, default_value="")
-        self.__s_import_last_dir_subtitles = _Str("import-last-dir-subtitles", qs, default_value="")
+        self.__s_import_last_dir_document = _Path("import-last-dir-documents", qs, default_value=Path.home())
+        self.__s_import_last_dir_video = _Path("import-last-dir-video", qs, default_value=Path.home())
+        self.__s_import_last_dir_subtitles = _Path("import-last-dir-subtitles", qs, default_value=Path.home())
 
         # 0: Remaining time, 1: Current time
         self.__s_statusbar_time_mode = _Int("statusbar-time-mode", qs, default_value=1)
