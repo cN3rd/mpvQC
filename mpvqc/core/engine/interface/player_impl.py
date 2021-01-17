@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 from mpvqc.core.engine.interface.player import Player
-from mpvqc.player import MpvPlayer
+from mpvqc.core.player import MpvPlayer
 
 
 class PlayerImpl(Player):
